@@ -1,6 +1,6 @@
 import { FaBars } from 'react-icons/fa';
 import React, { useEffect, useState } from 'react';
-import logo from '../assets/asset5.png'; // ✅ เปลี่ยนชื่อไฟล์ให้ไม่มีช่องว่าง
+import logo from '../assets/asset4.png'; // ✅ เปลี่ยนชื่อไฟล์ให้ไม่มีช่องว่าง
 
 const Header = ({ open, setOpen, menuItems }) => {
   const [scrolled, setScrolled] = useState(false);
