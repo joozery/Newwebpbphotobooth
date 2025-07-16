@@ -32,7 +32,7 @@ const HeroSection = () => {
       >
         
         {/* LEFT: Text */}
-        <div className="flex-1 flex flex-col justify-center items-start pt-6 md:pt-12">
+        <div className="flex-1 flex flex-col justify-center items-start pt- md:pt-12">
   <motion.h1
     className="text-2xl sm:text-4xl md:text-6xl font-bold font-prompt drop-shadow-md"
     initial={{ opacity: 0, y: 40 }}

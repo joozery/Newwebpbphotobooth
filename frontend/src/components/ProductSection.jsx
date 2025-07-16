@@ -1,12 +1,12 @@
-import aiphotoImg from '../assets/Aiphoto.jpg';
-import video360Img from '../assets/360video.jpg';
-import photoboothImg from '../assets/photobooth.jpg';
-import blessImg from '../assets/bless.jpg';
+import aiphotoImg from '../assets/slidehero/Ai2.png';
+import video360Img from '../assets/slidehero/pb2.png';
+import photoboothImg from '../assets/slidehero/pb.png';
+import blessImg from '../assets/slidehero/PBMemory.png';
 
 function ProductCard({ img, title, desc }) {
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-2xl transition flex flex-col border">
-      <img src={img} alt={title} className="w-full h-40 object-cover rounded-t-xl" />
+      <img src={img} alt={title} className="w-full h-40 object-contain bg-white rounded-t-xl" />
       <div className="flex-1 flex flex-col items-center p-4">
         <div className="font-semibold text-lg mb-1 text-black">{title}</div>
         <div className="text-black text-sm text-center mb-4">{desc}</div>
