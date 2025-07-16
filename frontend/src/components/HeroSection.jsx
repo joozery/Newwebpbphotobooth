@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -11,12 +12,13 @@ import bgImage from '../assets/PB PHOTOBOOTH-022.png';
 import B1 from '../assets/slidehero/B1.png';
 import B2 from '../assets/slidehero/B2.png';
 import B3 from '../assets/slidehero/B3.png';
+import AI from '../assets/slidehero/Ai2.png';
 import B4 from '../assets/slidehero/B4.png';
 import pb from '../assets/slidehero/2x6-01.png';
 import pb2 from '../assets/slidehero/pb2.png';
 import pb3 from '../assets/slidehero/PBMemory.png';
 
-const images = [B1, B2, B3, B4, pb, pb2, pb3];
+const images = [pb, pb2, AI, B1, B2, B3, B4, pb3];
 
 const HeroSection = () => {
   return (
@@ -30,20 +32,41 @@ const HeroSection = () => {
       >
         
         {/* LEFT: Text */}
-        <div className="flex-1 flex flex-col justify-center items-start">
-          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold leading-tight font-prompt drop-shadow-md">
-            สร้างสีสันให้งาน <br />
-            สนุกยิ่งขึ้นด้วย
-          </h1>
-          <h2 className="text-lg sm:text-2xl md:text-4xl font-bold text-yellow-400 mt-4 md:mt-8 drop-shadow-md">
+        <div className="flex-1 flex flex-col justify-center items-start pt-6 md:pt-12">
+  <motion.h1
+    className="text-2xl sm:text-4xl md:text-6xl font-bold font-prompt drop-shadow-md"
+    initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7 }}
+  >
+    สร้างสีสันให้งาน
+  </motion.h1>
+
+  <motion.h1
+    className="text-2xl sm:text-4xl md:text-6xl font-bold font-prompt drop-shadow-md mt-1"
+    initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7, delay: 0.15 }}
+  >
+    สนุกยิ่งขึ้นด้วย
+  </motion.h1>
+          
+          <motion.h2
+            className="text-lg sm:text-2xl md:text-4xl font-bold text-yellow-400 mt-4 md:mt-8 drop-shadow-md"
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
             PB PHOTOBOOTH
-          </h2>
-          <p className="mt-2 md:mt-4 text-sm sm:text-base md:text-xl leading-relaxed max-w-lg drop-shadow-sm">
-            พบโฟโต้บูธ PB PHOTO BOOTH สร้างสีสัน สร้างรอยยิ้ม
-            ส่งต่อภาพความทรงจำดีๆ ให้ทุกคนที่มางาน
-            บริการด้วยราคาที่เป็นกันเอง รวดเร็วทันใจ ไม่จำกัดปริมาณภาพ
-            งานอีเว้นท์ งานแต่ง พร้อมเจ้าหน้าที่ดูแลตลอดทุกหน้างานของคุณ
-          </p>
+          </motion.h2>
+          <motion.p
+            className="mt-2 md:mt-4 text-sm sm:text-base md:text-xl leading-relaxed max-w-lg drop-shadow-sm"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+          >
+            พบโฟโต้บูธ PB PHOTO BOOTH สร้างสีสัน สร้างรอยยิ้ม ส่งต่อภาพความทรงจำดีๆ ให้ทุกคนที่มางาน บริการด้วยราคาที่เป็นกันเอง รวดเร็วทันใจ ไม่จำกัดปริมาณภาพ งานอีเว้นท์ งานแต่ง พร้อมเจ้าหน้าที่ดูแลตลอดทุกหน้างานของคุณ
+          </motion.p>
         </div>
 
         {/* RIGHT: Slider */}
