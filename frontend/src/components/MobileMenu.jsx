@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaTimes } from 'react-icons/fa';
 
 export default function MobileMenu({ open, setOpen, menuItems, logo }) {
   return (
@@ -16,8 +17,8 @@ export default function MobileMenu({ open, setOpen, menuItems, logo }) {
       >
         <div className="flex justify-between items-center px-4 py-4 border-b border-gray-100">
           <img src={logo} alt="Logo" className="h-8 sm:h-10" />
-          <button onClick={() => setOpen(false)} className="text-3xl font-light text-gray-600 hover:text-blue-600">
-            &times;
+          <button onClick={() => setOpen(false)} className="text-3xl text-gray-700 hover:text-red-500 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+            <FaTimes size={28} />
           </button>
         </div>
         <nav className="flex flex-col gap-4 px-4 pt-6 pb-8">

@@ -40,6 +40,7 @@ import { BsMessenger } from "react-icons/bs";
 import MobileMenu from './components/MobileMenu'
 import logo from './assets/pblogo.png';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import SocialSidebar from './components/SocialSidebar';
 // ไม่ต้อง import .jpg อีกต่อไป
 
 const cardVariants = {
@@ -77,23 +78,8 @@ function ProductCard({ img, title, desc }) {
 }
 
 function VideoCard({ src, poster, title, duration }) {
-  const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handlePlay = () => {
-    setIsPlaying(true);
-    videoRef.current.play();
-  };
-
-  const handleVideoClick = () => {
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
-  };
+  // const videoRef = useRef(null);
+  // const [isPlaying, setIsPlaying] = useState(false);
 
   return (
     <motion.div
@@ -106,56 +92,22 @@ function VideoCard({ src, poster, title, duration }) {
     >
       <div className="w-full aspect-[9/16] rounded-xl border-2 border-red-200 flex items-center justify-center relative overflow-hidden mb-3">
         <video
-          ref={videoRef}
           src={src}
           poster={poster}
-          className="object-cover w-full h-full cursor-pointer bg-gray-200"
+          className="object-cover w-full h-full bg-gray-200 rounded-xl"
           preload="metadata"
-          onClick={handleVideoClick}
+          autoPlay
+          muted
+          loop
+          playsInline
           controls={false}
         />
-        {!isPlaying && (
-          <button
-            className="absolute inset-0 flex items-center justify-center z-10"
-            onClick={handlePlay}
-            type="button"
-          >
-            <span className="bg-white bg-opacity-80 rounded-full p-2">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#F44336"/><polygon points="20,16 34,24 20,32" fill="#fff"/></svg>
-            </span>
-          </button>
-        )}
+        {/* ไม่ต้องแสดงปุ่ม play overlay */}
         <span className="absolute left-2 bottom-2 bg-white bg-opacity-80 rounded-full px-2 py-1 text-xs text-red-400 flex items-center"><svg className="mr-1" width="16" height="16" fill="none"><path d="M8 3v5l4 2" stroke="#F44336" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="8" cy="8" r="7" stroke="#F44336" strokeWidth="2"/></svg>{duration}</span>
         <span className="absolute right-2 bottom-2 bg-white bg-opacity-80 rounded-full p-1 text-xs text-red-400 flex items-center"><svg className="mr-1" width="16" height="16" fill="none"><circle cx="8" cy="8" r="7" stroke="#F44336" strokeWidth="2"/><path d="M8 5v6" stroke="#F44336" strokeWidth="2" strokeLinecap="round"/><path d="M8 11h.01" stroke="#F44336" strokeWidth="2" strokeLinecap="round"/></svg></span>
       </div>
       <div className="font-semibold text-sm mb-1 w-full text-left">{title}</div>
     </motion.div>
-  );
-}
-
-function WishSlider() {
-  const wishes = [wish1, wish2, wish3];
-  const [idx, setIdx] = React.useState(0);
-  const prev = () => setIdx((i) => (i === 0 ? wishes.length - 1 : i - 1));
-  const next = () => setIdx((i) => (i === wishes.length - 1 ? 0 : i + 1));
-  // Auto slide
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setIdx((i) => (i === wishes.length - 1 ? 0 : i + 1));
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [wishes.length]);
-  return (
-    <section className="w-full flex flex-col items-center py-12 bg-gray-50">
-      <h2 className="text-3xl font-extrabold text-black mb-8 text-center">ตัวอย่างรูปคำอวยพร</h2>
-      <div className="flex justify-center w-full">
-        <div className="relative max-w-7xl w-full flex items-center h-[650px]">
-          <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 rounded-full p-2 shadow hover:bg-gray-100 border border-gray-200"><span className="text-2xl">&#8249;</span></button>
-          <img src={wishes[idx]} alt={`wish${idx+1}`} className="w-full h-full object-cover rounded-3xl border-4 border-white shadow-lg bg-white" />
-          <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 rounded-full p-2 shadow hover:bg-gray-100 border border-gray-200"><span className="text-2xl">&#8250;</span></button>
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -284,59 +236,8 @@ function OurClientsSection() {
 }
 
 function ContactPopup() {
-  const [open, setOpen] = React.useState(false);
-  return (
-    <>
-      {/* Floating Button */}
-      <button
-        className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-full p-4 shadow-lg hover:scale-110 transition"
-        onClick={() => setOpen(true)}
-        aria-label="Open Contact"
-        style={{ boxShadow: "0 4px 24px 0 rgba(0,0,0,0.12)" }}
-      >
-        <FaCommentDots size={28} />
-      </button>
-
-      {/* Popup */}
-      {open && (
-        <div className="fixed bottom-24 right-6 z-50 bg-blue-100 rounded-3xl shadow-2xl p-6 w-72 flex flex-col items-center border border-blue-200">
-          {/* Close */}
-          <button
-            className="absolute top-3 right-3 text-gray-400 hover:text-blue-600 text-xl"
-            onClick={() => setOpen(false)}
-            aria-label="Close"
-          >
-            <FaTimes />
-          </button>
-          <div className="font-bold text-lg text-black mb-4 mt-1">Contact Us</div>
-          <div className="flex flex-col gap-3 w-full mb-4">
-            <a href="tel:0826565696" className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow hover:bg-blue-50 transition font-medium">
-              <FaPhone className="text-yellow-500" /> Call us
-            </a>
-            <a href="https://lin.ee/xxxx" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow hover:bg-blue-50 transition font-medium">
-              <FaLine className="text-green-500" /> Line@
-            </a>
-            <a href="https://m.me/photoboothpro" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow hover:bg-blue-50 transition font-medium">
-              <BsMessenger className="text-blue-500" /> Messenger
-            </a>
-            <a href="mailto:sw_customercare@photoboothpro.com" className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow hover:bg-blue-50 transition font-medium">
-              <FaEnvelope className="text-blue-400" /> Email
-            </a>
-            <a href="https://goo.gl/maps/xxxx" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow hover:bg-blue-50 transition font-medium">
-              <FaMapMarkerAlt className="text-red-400" /> Google map
-            </a>
-          </div>
-          <div className="font-bold text-base text-black mb-2 mt-2">Follow Us</div>
-          <div className="flex gap-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-white rounded-full p-2 shadow hover:bg-blue-200 transition"><FaFacebookF className="text-blue-600" size={20} /></a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white rounded-full p-2 shadow hover:bg-pink-200 transition"><FaInstagram className="text-pink-500" size={20} /></a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="bg-white rounded-full p-2 shadow hover:bg-gray-200 transition"><FaTiktok className="text-black" size={20} /></a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="bg-white rounded-full p-2 shadow hover:bg-red-200 transition"><FaYoutube className="text-red-500" size={20} /></a>
-          </div>
-        </div>
-      )}
-    </>
-  );
+  // const [open, setOpen] = React.useState(false);
+  return <></>;
 }
 
 function App() {
@@ -418,8 +319,6 @@ function App() {
             />
           </div>
         </section>
-        {/* Wish Example Slider Section */}
-        <WishSlider />
         {/* Product & Service Section */}
         <section id="portfolio" className="max-w-7xl mx-auto w-full py-10 px-4">
           <div className="flex justify-between items-center mb-6 flex-wrap gap-2">
@@ -480,6 +379,7 @@ function App() {
         <div id="package"><PackageSection /></div>
         <div id="clients"><OurClientsSection /></div>
         <div id="contact"><Footer /></div>
+        <SocialSidebar />
         <ContactPopup />
       </div>
     </HelmetProvider>

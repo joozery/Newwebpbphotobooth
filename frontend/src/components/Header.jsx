@@ -1,3 +1,5 @@
+import { FaBars } from 'react-icons/fa';
+
 const Header = ({ open, setOpen, menuItems, logo }) => {
   return (
     <header className="bg-white/90 backdrop-blur-md shadow-md border-b border-gray-200 fixed top-0 left-0 w-full z-50">
@@ -47,15 +49,11 @@ const Header = ({ open, setOpen, menuItems, logo }) => {
 
         {/* Hamburger */}
         <button
-          className="md:hidden flex items-center justify-center w-11 h-11 rounded-lg border border-blue-200 bg-white text-blue-600 shadow hover:bg-blue-50 transition"
+          className="md:hidden flex items-center justify-center w-12 h-12 rounded-lg border border-blue-200 bg-white text-blue-600 shadow hover:bg-blue-50 transition"
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle Menu"
         >
-          <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <line x1="4" y1="7" x2="20" y2="7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            <line x1="4" y1="17" x2="20" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <FaBars size={44} className="text-blue-700" />
         </button>
       </div>
 
