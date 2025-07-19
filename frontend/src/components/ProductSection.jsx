@@ -3,6 +3,16 @@ import video360Img from '../assets/slidehero/pb2.png';
 import photoboothImg from '../assets/slidehero/pb.png';
 import blessImg from '../assets/slidehero/PBMemory.png';
 
+// รูป Photobooth Box B1-B4
+import B1Img from '../assets/slidehero/B1.png';
+import B2Img from '../assets/slidehero/B2.png';
+import B3Img from '../assets/slidehero/B3.png';
+import B4Img from '../assets/slidehero/B4.png';
+
+// รูปสินค้าเพิ่มเติม
+import aumongImg from '../assets/slidehero/aumong.png';
+import miniaiImg from '../assets/slidehero/miniai.png';
+
 function ProductCard({ img, title, desc }) {
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-2xl transition flex flex-col border">
@@ -28,11 +38,20 @@ const ProductSection = () => (
         </div>
         <button className="border border-gray-300 rounded px-4 py-1 text-black hover:bg-gray-100 transition">ดูทั้งหมด</button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        <ProductCard img={aiphotoImg} title="AI Photobooth" desc="ถ่ายภาพด้วย AI สร้างประสบการณ์ใหม่ในงานแต่ง" />
-        <ProductCard img={video360Img} title="360 Video Booth" desc="บูธวิดีโอ 360 องศา เก็บทุกโมเมนต์ประทับใจ" />
-        <ProductCard img={photoboothImg} title="PhotoBooth" desc="บูธถ่ายภาพสุดคลาสสิกสำหรับทุกงานแต่ง" />
-        <ProductCard img={blessImg} title={<span className="text-black">เขียนอวยพรออนไลน์</span>} desc={<span className="text-black">ส่งคำอวยพรออนไลน์ถึงคู่บ่าวสาวได้ง่าย ๆ</span>} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        {/* แถวที่ 1 */}
+        <ProductCard img={photoboothImg} title="PhotoBooth" desc="งานแต่งงาน งานสมัชชา และงานกิจกรรมต่างๆ" />
+        <ProductCard img={blessImg} title="PB Memory" desc="ตู้ปิดคำภาพเพื่อของขวัญ แถม AI ด้วย" />
+        <ProductCard img={video360Img} title="360 Video Booth" desc="เวทีหมุน 360 องศา ถ่ายรูปและวิดีโอ เจ๋งมาก" />
+        <ProductCard img={B1Img} title="Photobooth Box B1" desc="Photo ไฟฟ้า เสีย ส่ายไปคาสิโน่ ลูกโป่งแด่งฟ้องฟุ้งกาลเวลา" />
+        <ProductCard img={B2Img} title="Photobooth Box B2" desc="Photo ไฟฟ้าเจ้าระเบียง สวยงามในรูปแบบคลาสสิค" />
+        
+        {/* แถวที่ 2 */}
+        <ProductCard img={B3Img} title="Photobooth Box B3" desc="Photo ไฟฟ้าเจ้าระเบียง แบบมินิมอลไม่แปลมใส" />
+        <ProductCard img={B4Img} title="Photobooth Box B4" desc="Photo Cocktal with ดีไซน์ทันสมัยและหรูหรา" />
+        <ProductCard img={miniaiImg} title="AI mini studio" desc="Photo ไฟฟ้า Gen Ai งานแต่งงานสุดล้ำ" />
+        <ProductCard img={aumongImg} title="อุโมงค์" desc="จากลิงพร้อมไฟ RGB กับใหม่ด้วยโจทย์ ของอุโมงค์ 3x4 เมตร" />
+        <ProductCard img={aiphotoImg} title="AI Photobooth" desc="ระบบ AI จากระดับมืออาชีพ ล้ำสมัยระดับโลก" />
       </div>
     </div>
   </section>

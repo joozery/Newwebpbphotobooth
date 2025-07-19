@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 
 // รูป background
-import bgImage from '../assets/PB PHOTOBOOTH-022.png';
+import bgImage from '../assets/PB PHOTOBOOTH-023.png';
 
 // รูปในสไลด์
 import B1 from '../assets/slidehero/B1.png';
@@ -23,12 +23,11 @@ const images = [pb, pb2, AI, B1, B2, B3, B4, pb3];
 const HeroSection = () => {
   return (
     <section
-      className="w-full py-4 md:py-24 bg-cover bg-center bg-no-repeat"
+      className="w-full py-4 md:py-8 bg-cover bg-center bg-no-repeat relative z-10"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div
         className="max-w-screen-xl mx-auto px-4 md:px-10 flex flex-col md:flex-row items-center gap-6 md:gap-10 text-white"
-        style={{ marginTop: 'clamp(-24px, -6vw, -48px)' }}
       >
         
         {/* LEFT: Text */}
