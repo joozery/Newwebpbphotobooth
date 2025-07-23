@@ -249,17 +249,26 @@ const PromotionSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-6"
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 md:p-6"
             onClick={() => setShowPopup(false)}
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-2xl max-w-3xl w-full max-h-[60vh] overflow-hidden"
+              className="bg-white rounded-2xl w-full max-w-sm md:max-w-2xl lg:max-w-3xl max-h-[80vh] md:max-h-[60vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-
+              {/* Header with close button */}
+              <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
+                <h3 className="text-lg font-semibold text-gray-800">โปรโมชั่นพิเศษ</h3>
+                <button
+                  onClick={() => setShowPopup(false)}
+                  className="text-gray-500 hover:text-gray-700 text-2xl p-1 hover:bg-gray-200 rounded-full transition"
+                >
+                  ×
+                </button>
+              </div>
 
               {/* Slider Content */}
               <div className="p-0">
@@ -274,15 +283,15 @@ const PromotionSection = () => {
                   loop={true}
                   navigation={true}
                   pagination={{ clickable: true }}
-                  className="promotion-popup-swiper h-[calc(60vh-60px)]"
+                  className="promotion-popup-swiper h-[calc(80vh-140px)] md:h-[calc(60vh-140px)]"
                 >
                   {promotionImages.map((image, index) => (
                     <SwiperSlide key={index}>
-                      <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-full h-full flex items-center justify-center p-4">
                         <img
                           src={image}
                           alt={`Promotion ${index + 1}`}
-                          className="max-w-full max-h-full object-contain"
+                          className="max-w-full max-h-full object-contain rounded-lg"
                         />
                       </div>
                     </SwiperSlide>
@@ -291,7 +300,7 @@ const PromotionSection = () => {
               </div>
 
               {/* Footer */}
-              <div className="bg-gray-50 p-4 text-center">
+              <div className="bg-gray-50 p-4 text-center border-t">
                 <button
                   onClick={() => setShowPopup(false)}
                   className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-full transition-colors duration-300"

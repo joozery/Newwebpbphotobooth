@@ -110,7 +110,7 @@ const HeroSection = () => {
             viewport={{ once: true }}
           >
             <motion.h1
-              className="text-2xl sm:text-4xs md:text-5xl font-bold font-prompt drop-shadow-md"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold font-prompt drop-shadow-lg"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
@@ -119,7 +119,7 @@ const HeroSection = () => {
             </motion.h1>
 
             <motion.h1
-              className="text-2xl sm:text-4xl md:text-5xl font-bold font-prompt drop-shadow-md mt-1"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold font-prompt drop-shadow-lg mt-1"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15 }}
@@ -128,7 +128,7 @@ const HeroSection = () => {
             </motion.h1>
             
             <motion.h2
-              className="text-lg sm:text-2xl md:text-6xl font-bold text-yellow-400 mt-4 md:mt-8 drop-shadow-md"
+              className="text-2xl sm:text-3xl md:text-6xl font-bold text-yellow-400 mt-4 md:mt-8 drop-shadow-lg"
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
@@ -137,7 +137,7 @@ const HeroSection = () => {
             </motion.h2>
             
             <motion.p
-              className="mt-2 md:mt-4 text-sm sm:text-base md:text-xl leading-relaxed max-w-lg drop-shadow-sm"
+              className="mt-2 md:mt-4 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg drop-shadow-md"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.6 }}

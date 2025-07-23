@@ -308,8 +308,41 @@ function ProductCard({ img, title, desc, onViewDetails }) {
 }
 
 
+// Detail Modal Component
+function ProductDetailModal({ isOpen, onClose, product }) {
+  if (!isOpen || !product) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto scrollbar-hide">
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-black">{product.title}</h2>
+            <button 
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700 text-3xl p-2 hover:bg-gray-100 rounded-full transition"
+            >
+              <FaTimes />
+            </button>
+          </div>
+
+          {/* Single Image */}
+          <div className="bg-gray-50 rounded-2xl p-6">
+            <img 
+              src={product.image} 
+              alt={product.title}
+              className="w-full h-96 object-contain rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Modal Component
-function ProductModal({ isOpen, onClose, product }) {
+function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
   if (!isOpen || !product) return null;
 
   return (
@@ -408,7 +441,10 @@ function ProductModal({ isOpen, onClose, product }) {
                     </button>
                   </div>
                   
-                  <button className="w-full bg-purple-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-purple-700 transition flex items-center justify-center gap-3 text-lg">
+                  <button 
+                    onClick={onMoreDetails}
+                    className="w-full bg-purple-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-purple-700 transition flex items-center justify-center gap-3 text-lg"
+                  >
                     <FaInfoCircle />
                     รายละเอียดเพิ่มเติม
                   </button>
@@ -455,6 +491,7 @@ function ProductModal({ isOpen, onClose, product }) {
 const ProductSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const handleViewDetails = (productTitle) => {
     console.log('Clicked product:', productTitle);
@@ -472,6 +509,14 @@ const ProductSection = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedProduct(null);
+  };
+
+  const handleMoreDetails = () => {
+    setIsDetailModalOpen(true);
+  };
+
+  const closeDetailModal = () => {
+    setIsDetailModalOpen(false);
   };
 
   return (
@@ -507,6 +552,14 @@ const ProductSection = () => {
       <ProductModal 
         isOpen={isModalOpen} 
         onClose={closeModal} 
+        product={selectedProduct} 
+        onMoreDetails={handleMoreDetails}
+      />
+
+      {/* Detail Modal */}
+      <ProductDetailModal 
+        isOpen={isDetailModalOpen} 
+        onClose={closeDetailModal} 
         product={selectedProduct} 
       />
     </>
