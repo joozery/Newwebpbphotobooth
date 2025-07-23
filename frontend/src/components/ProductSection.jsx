@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaTimes, FaPhone, FaLine, FaInfoCircle, FaCalendarAlt, FaComments } from 'react-icons/fa';
-import aiphotoImg from '../assets/slidehero/Ai2.png';
-import video360Img from '../assets/slidehero/pb2.png';
-import photoboothImg from '../assets/slidehero/pb.png';
-import blessImg from '../assets/slidehero/PBMemory.png';
+import { fetchProducts } from '../services/productService';
 
 // รูป Photobooth Box B1-B4
 import B1Img from '../assets/slidehero/B1.png';
@@ -15,278 +12,20 @@ import B4Img from '../assets/slidehero/B4.png';
 import aumongImg from '../assets/slidehero/aumong.png';
 import miniaiImg from '../assets/slidehero/miniai.png';
 
-// ข้อมูลรายละเอียดสินค้า
-const productDetails = {
-  'PhotoBooth': {
-    title: 'PhotoBooth',
-    image: photoboothImg,
-    description: 'งานแต่งงาน งานสมัชชา และงานกิจกรรมต่างๆ',
-    features: [
-      'ถ่ายรูปและปริ้นท์ขนาด 2x6" และ 4x6" ไม่จำกัดจำนวน',
-      'รับไฟล์ภาพทันทีทาง Airdrop หรือ QR Code',
-      'กล้อง Mirrorless ภาพคมชัด HD',
-      'จอทัชสกรีน Live view แบบ Realtime',
-      'ฟรีค่าออกแบบกรอบรูปตามธีม',
-      'อุปกรณ์ Props ให้เลือกมากมาย'
-    ],
-    price: 'เริ่มต้น 15,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 15,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 25,000 บาท',
-      'รวมทีมงาน 2 คน',
-      'รวมค่าเดินทางใน กทม.'
-    ],
-    specifications: [
-      'กล้อง Sony Mirrorless',
-      'เครื่องปริ้นท์ Canon Selphy',
-      'จอ Touchscreen 21 นิ้ว',
-      'ระบบแสงไฟ LED Professional'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  'PB Memory': {
-    title: 'PB Memory',
-    image: blessImg,
-    description: 'ตู้ปิดคำภาพเพื่อของขวัญ แถม AI ด้วย',
-    features: [
-      'ส่งคำอวยพรออนไลน์ให้กับคู่บ่าวสาว',
-      'ไม่อยู่ในงานก็ส่งได้',
-      'ภาพสำเร็จทันที พร้อมพิมพ์',
-      'งาน Meet and Greet ก็เก็บได้',
-      'ระบบ AI สร้างภาพที่น่าประทับใจ',
-      'แอพพลิเคชั่นใช้งานง่าย'
-    ],
-    price: 'เริ่มต้น 8,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 8,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 12,000 บาท',
-      'รวมทีมงาน 1 คน',
-      'รวมกระดาษพิมพ์ 200 แผ่น'
-    ],
-    specifications: [
-      'ระบบ AI Image Generation',
-      'Tablet Android 10 นิ้ว',
-      'เครื่องปริ้นท์ความร้อน',
-      'ระบบ WiFi และ QR Code'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  '360 Video Booth': {
-    title: '360 Video Booth',
-    image: video360Img,
-    description: 'เวทีหมุน 360 องศา ถ่ายรูปและวิดีโอ เจ๋งมาก',
-    features: [
-      'เวทีหมุน 360 องศาอัตโนมัติ',
-      'ถ่ายวิดีโอ Slow Motion คุณภาพ HD',
-      'ระบบแสงไฟ LED เอฟเฟกต์สวยงาม',
-      'พื้นที่รองรับ 3-6 คน',
-      'รับไฟล์ทันทีผ่าน QR Code',
-      'ทีมงานมืออาชีพควบคุมตลอดงาน'
-    ],
-    price: 'เริ่มต้น 25,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 25,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 35,000 บาท',
-      'รวมทีมงาน 2 คน',
-      'รวมอุปกรณ์ครบชุด'
-    ],
-    specifications: [
-      'เวทีหมุนขนาด 120 cm',
-      'กล้อง 4K Video Recording',
-      'ระบบแสงไฟ RGB LED Ring',
-      'มอเตอร์ควบคุมความเร็ว'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  'Photobooth Box B1': {
-    title: 'Photobooth Box B1',
-    image: B1Img,
-    description: 'บูธถ่ายรูปขนาดเล็ก เหมาะสำหรับงานขนาดเล็ก',
-    features: [
-      'ขนาดกะทัดรัด พกพาง่าย',
-      'ถ่ายรูปและปริ้นท์ทันที',
-      'จอทัชสกรีน 15 นิ้ว',
-      'ระบบแสงไฟ LED ในตัว',
-      'รองรับการเชื่อมต่อ WiFi',
-      'แบตเตอรี่สำรอง 4 ชั่วโมง'
-    ],
-    price: 'เริ่มต้น 8,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 8,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 12,000 บาท',
-      'รวมทีมงาน 1 คน',
-      'รวมกระดาษพิมพ์ 100 แผ่น'
-    ],
-    specifications: [
-      'ขนาด 60x60x180 cm',
-      'กล้อง 12MP',
-      'เครื่องปริ้นท์ความร้อน',
-      'น้ำหนัก 15 kg'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  'Photobooth Box B2': {
-    title: 'Photobooth Box B2',
-    image: B2Img,
-    description: 'บูธถ่ายรูปขนาดกลาง เหมาะสำหรับงานทั่วไป',
-    features: [
-      'ขนาดกลาง เหมาะกับงานทั่วไป',
-      'ถ่ายรูปและปริ้นท์คุณภาพสูง',
-      'จอทัชสกรีน 18 นิ้ว',
-      'ระบบแสงไฟ LED Professional',
-      'รองรับการเชื่อมต่อ Bluetooth',
-      'แบตเตอรี่สำรอง 6 ชั่วโมง'
-    ],
-    price: 'เริ่มต้น 10,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 10,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 15,000 บาท',
-      'รวมทีมงาน 1 คน',
-      'รวมกระดาษพิมพ์ 150 แผ่น'
-    ],
-    specifications: [
-      'ขนาด 80x80x200 cm',
-      'กล้อง 16MP',
-      'เครื่องปริ้นท์ความร้อน',
-      'น้ำหนัก 25 kg'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  'Photobooth Box B3': {
-    title: 'Photobooth Box B3',
-    image: B3Img,
-    description: 'บูธถ่ายรูปขนาดใหญ่ เหมาะสำหรับงานใหญ่',
-    features: [
-      'ขนาดใหญ่ เหมาะกับงานใหญ่',
-      'ถ่ายรูปและปริ้นท์คุณภาพสูงสุด',
-      'จอทัชสกรีน 21 นิ้ว',
-      'ระบบแสงไฟ LED Professional',
-      'รองรับการเชื่อมต่อ WiFi และ Bluetooth',
-      'แบตเตอรี่สำรอง 8 ชั่วโมง'
-    ],
-    price: 'เริ่มต้น 12,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 12,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 18,000 บาท',
-      'รวมทีมงาน 1 คน',
-      'รวมกระดาษพิมพ์ 200 แผ่น'
-    ],
-    specifications: [
-      'ขนาด 100x100x220 cm',
-      'กล้อง 20MP',
-      'เครื่องปริ้นท์ความร้อน',
-      'น้ำหนัก 35 kg'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  'Photobooth Box B4': {
-    title: 'Photobooth Box B4',
-    image: B4Img,
-    description: 'บูธถ่ายรูปพรีเมียม เหมาะสำหรับงานหรู',
-    features: [
-      'พรีเมียม เหมาะกับงานหรู',
-      'ถ่ายรูปและปริ้นท์คุณภาพสูงสุด',
-      'จอทัชสกรีน 24 นิ้ว',
-      'ระบบแสงไฟ LED Professional',
-      'รองรับการเชื่อมต่อ WiFi, Bluetooth และ NFC',
-      'แบตเตอรี่สำรอง 10 ชั่วโมง'
-    ],
-    price: 'เริ่มต้น 15,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 15,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 22,000 บาท',
-      'รวมทีมงาน 1 คน',
-      'รวมกระดาษพิมพ์ 250 แผ่น'
-    ],
-    specifications: [
-      'ขนาด 120x120x240 cm',
-      'กล้อง 24MP',
-      'เครื่องปริ้นท์ความร้อน',
-      'น้ำหนัก 45 kg'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  'AI Photobooth': {
-    title: 'AI Photobooth',
-    image: aiphotoImg,
-    description: 'บูธถ่ายรูป AI สร้างภาพสุดล้ำ',
-    features: [
-      'ระบบ AI สร้างภาพสุดล้ำ',
-      'ถ่ายรูปและสร้างภาพด้วย AI',
-      'จอทัชสกรีน 21 นิ้ว',
-      'ระบบแสงไฟ LED Professional',
-      'รองรับการเชื่อมต่อ WiFi',
-      'แบตเตอรี่สำรอง 6 ชั่วโมง'
-    ],
-    price: 'เริ่มต้น 20,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 20,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 30,000 บาท',
-      'รวมทีมงาน 1 คน',
-      'รวมกระดาษพิมพ์ 150 แผ่น'
-    ],
-    specifications: [
-      'ขนาด 100x100x220 cm',
-      'กล้อง 20MP',
-      'ระบบ AI Image Generation',
-      'น้ำหนัก 40 kg'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  'Mini AI Photobooth': {
-    title: 'Mini AI Photobooth',
-    image: miniaiImg,
-    description: 'บูธถ่ายรูป AI ขนาดเล็ก พกพาง่าย',
-    features: [
-      'ระบบ AI สร้างภาพสุดล้ำ',
-      'ขนาดเล็ก พกพาง่าย',
-      'จอทัชสกรีน 15 นิ้ว',
-      'ระบบแสงไฟ LED ในตัว',
-      'รองรับการเชื่อมต่อ WiFi',
-      'แบตเตอรี่สำรอง 4 ชั่วโมง'
-    ],
-    price: 'เริ่มต้น 15,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 15,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 22,000 บาท',
-      'รวมทีมงาน 1 คน',
-      'รวมกระดาษพิมพ์ 100 แผ่น'
-    ],
-    specifications: [
-      'ขนาด 60x60x180 cm',
-      'กล้อง 16MP',
-      'ระบบ AI Image Generation',
-      'น้ำหนัก 20 kg'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  },
-  'Au Mong': {
-    title: 'Au Mong',
-    image: aumongImg,
-    description: 'บูธถ่ายรูปออโต้ เหมาะสำหรับงานอีเว้นท์',
-    features: [
-      'ระบบออโต้ เหมาะกับงานอีเว้นท์',
-      'ถ่ายรูปและปริ้นท์อัตโนมัติ',
-      'จอทัชสกรีน 18 นิ้ว',
-      'ระบบแสงไฟ LED Professional',
-      'รองรับการเชื่อมต่อ WiFi',
-      'แบตเตอรี่สำรอง 6 ชั่วโมง'
-    ],
-    price: 'เริ่มต้น 18,000 บาท',
-    priceDetails: [
-      'ครึ่งวันงาน (4 ชั่วโมง) 18,000 บาท',
-      'เต็มวันงาน (8 ชั่วโมง) 25,000 บาท',
-      'รวมทีมงาน 1 คน',
-      'รวมกระดาษพิมพ์ 200 แผ่น'
-    ],
-    specifications: [
-      'ขนาด 80x80x200 cm',
-      'กล้อง 18MP',
-      'ระบบออโต้',
-      'น้ำหนัก 30 kg'
-    ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี'
-  }
+// Default images สำหรับ fallback
+const defaultImages = {
+  'PhotoBooth': '/src/assets/slidehero/pb.png',
+  'PB Memory': '/src/assets/slidehero/PBMemory.png',
+  '360 Video Booth': '/src/assets/slidehero/pb2.png',
+  'Photobooth Box B1': B1Img,
+  'Photobooth Box B2': B2Img,
+  'Photobooth Box B3': B3Img,
+  'Photobooth Box B4': B4Img,
+  'AI Photobooth': '/src/assets/slidehero/Ai2.png',
+  'Mini AI Photobooth': miniaiImg,
+  'Au Mong': aumongImg,
+  'AI mini studio': miniaiImg,
+  'อุโมงค์': aumongImg
 };
 
 function ProductCard({ img, title, desc, onViewDetails }) {
@@ -306,7 +45,6 @@ function ProductCard({ img, title, desc, onViewDetails }) {
     </div>
   );
 }
-
 
 // Detail Modal Component
 function ProductDetailModal({ isOpen, onClose, product }) {
@@ -330,7 +68,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
           {/* Single Image */}
           <div className="bg-gray-50 rounded-2xl p-6">
             <img 
-              src={product.image} 
+              src={product.main_image_url || defaultImages[product.title]} 
               alt={product.title}
               className="w-full h-96 object-contain rounded-lg"
             />
@@ -344,6 +82,41 @@ function ProductDetailModal({ isOpen, onClose, product }) {
 // Modal Component
 function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
   if (!isOpen || !product) return null;
+
+  // แปลงข้อมูลจาก API ให้ตรงกับ UI
+  const formatPriceDetails = (priceDetails) => {
+    if (!priceDetails) return ['ราคาติดต่อสอบถาม'];
+    if (typeof priceDetails === 'string') {
+      return priceDetails.split(',').map(item => item.trim());
+    }
+    return [priceDetails];
+  };
+
+  const formatFeatures = (features) => {
+    if (!features || features.length === 0) return ['คุณสมบัติพิเศษ'];
+    if (Array.isArray(features)) {
+      return features;
+    }
+    if (typeof features === 'string') {
+      return features.split(',').map(item => item.trim());
+    }
+    return ['คุณสมบัติพิเศษ'];
+  };
+
+  const formatSpecifications = (technicalSpecs) => {
+    if (!technicalSpecs || technicalSpecs.length === 0) return ['ข้อมูลทางเทคนิค'];
+    if (Array.isArray(technicalSpecs)) {
+      return technicalSpecs;
+    }
+    if (typeof technicalSpecs === 'string') {
+      return technicalSpecs.split(',').map(item => item.trim());
+    }
+    return ['ข้อมูลทางเทคนิค'];
+  };
+
+  const priceDetails = formatPriceDetails(product.price_details);
+  const features = formatFeatures(product.features);
+  const specifications = formatSpecifications(product.technical_specs);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -368,11 +141,26 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
               {/* Main Image */}
               <div className="bg-gray-50 rounded-2xl p-6">
                 <img 
-                  src={product.image} 
+                  src={product.main_image_url || defaultImages[product.title]} 
                   alt={product.title}
                   className="w-full h-80 object-contain rounded-lg"
                 />
               </div>
+              
+              {/* Detail Images */}
+              {product.detail_images && product.detail_images.length > 0 && (
+                <div className="grid grid-cols-2 gap-4">
+                  {product.detail_images.slice(0, 4).map((image, index) => (
+                    <div key={index} className="bg-gray-50 rounded-xl p-4">
+                      <img 
+                        src={image} 
+                        alt={`${product.title} detail ${index + 1}`}
+                        className="w-full h-32 object-contain rounded-lg"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Right Column - Details */}
@@ -383,9 +171,11 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
               {/* Price */}
               <div className="bg-blue-50 rounded-xl p-6">
                 <h3 className="text-2xl font-bold text-blue-900 mb-3">ราคา</h3>
-                <p className="text-3xl font-bold text-blue-600 mb-4">{product.price}</p>
+                <p className="text-3xl font-bold text-blue-600 mb-4">
+                  {product.price || 'ราคาติดต่อสอบถาม'}
+                </p>
                 <div className="space-y-2">
-                  {product.priceDetails.map((detail, index) => (
+                  {priceDetails.map((detail, index) => (
                     <p key={index} className="text-gray-700">• {detail}</p>
                   ))}
                 </div>
@@ -457,7 +247,7 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
           <div className="mt-8 bg-white rounded-xl border p-6">
             <h3 className="text-2xl font-bold text-black mb-6">คุณสมบัติเด่น</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {product.features.map((feature, index) => (
+              {features.map((feature, index) => (
                 <div key={index} className="flex items-start p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-4 mt-0.5">
                     <span className="text-white text-sm font-bold">✓</span>
@@ -472,7 +262,7 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
           <div className="mt-6 bg-gray-50 rounded-xl p-6">
             <h3 className="text-2xl font-bold text-black mb-6">ข้อมูลทางเทคนิค</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {product.specifications.map((spec, index) => (
+              {specifications.map((spec, index) => (
                 <div key={index} className="flex items-start p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
                   <div className="flex-shrink-0 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-4 mt-0.5">
                     <span className="text-white text-sm font-bold">•</span>
@@ -489,13 +279,43 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
 }
 
 const ProductSection = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
+  // ดึงข้อมูลสินค้าจาก API
+  useEffect(() => {
+    const fetchProductsData = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchProducts();
+        console.log('Fetched products:', data);
+        
+        // เรียงข้อมูลตาม id จากน้อยไปมาก (แรกถึงสุดท้าย)
+        const sortedProducts = data.sort((a, b) => a.id - b.id);
+        console.log('Sorted products:', sortedProducts);
+        
+        setProducts(sortedProducts);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        setError('ไม่สามารถดึงข้อมูลสินค้าได้');
+        // ใช้ข้อมูล fallback ถ้า API ไม่ทำงาน
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductsData();
+  }, []);
+
   const handleViewDetails = (productTitle) => {
     console.log('Clicked product:', productTitle);
-    const product = productDetails[productTitle];
+    const product = products.find(p => p.title === productTitle);
     console.log('Product data:', product);
     if (product) {
       setSelectedProduct(product);
@@ -519,6 +339,43 @@ const ProductSection = () => {
     setIsDetailModalOpen(false);
   };
 
+  // แสดง loading
+  if (loading) {
+    return (
+      <section id="portfolio" className="w-full py-10">
+        <div className="max-w-screen-xl mx-auto px-4 md:px-10">
+          <div className="flex justify-center items-center h-64">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <p className="text-gray-600">กำลังโหลดข้อมูลสินค้า...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // แสดง error
+  if (error) {
+    return (
+      <section id="portfolio" className="w-full py-10">
+        <div className="max-w-screen-xl mx-auto px-4 md:px-10">
+          <div className="flex justify-center items-center h-64">
+            <div className="text-center">
+              <p className="text-red-600 mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                ลองใหม่
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <>
       <section id="portfolio" className="w-full py-10">
@@ -530,21 +387,24 @@ const ProductSection = () => {
             </div>
             <button className="border border-gray-300 rounded px-4 py-1 text-black hover:bg-gray-100 transition">ดูทั้งหมด</button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {/* แถวที่ 1 */}
-            <ProductCard img={photoboothImg} title="PhotoBooth" desc="งานแต่งงาน งานสมัชชา และงานกิจกรรมต่างๆ" onViewDetails={handleViewDetails} />
-            <ProductCard img={blessImg} title="PB Memory" desc="ตู้ปิดคำภาพเพื่อของขวัญ แถม AI ด้วย" onViewDetails={handleViewDetails} />
-            <ProductCard img={video360Img} title="360 Video Booth" desc="เวทีหมุน 360 องศา ถ่ายรูปและวิดีโอ เจ๋งมาก" onViewDetails={handleViewDetails} />
-            <ProductCard img={B1Img} title="Photobooth Box B1" desc="บูธถ่ายรูปขนาดเล็ก เหมาะสำหรับงานขนาดเล็ก" onViewDetails={handleViewDetails} />
-            <ProductCard img={B2Img} title="Photobooth Box B2" desc="บูธถ่ายรูปขนาดกลาง เหมาะสำหรับงานทั่วไป" onViewDetails={handleViewDetails} />
-            
-            {/* แถวที่ 2 */}
-            <ProductCard img={B3Img} title="Photobooth Box B3" desc="บูธถ่ายรูปขนาดใหญ่ เหมาะสำหรับงานใหญ่" onViewDetails={handleViewDetails} />
-            <ProductCard img={B4Img} title="Photobooth Box B4" desc="บูธถ่ายรูปพรีเมียม เหมาะสำหรับงานหรู" onViewDetails={handleViewDetails} />
-            <ProductCard img={miniaiImg} title="AI mini studio" desc="Photo ไฟฟ้า Gen Ai งานแต่งงานสุดล้ำ" onViewDetails={handleViewDetails} />
-            <ProductCard img={aumongImg} title="อุโมงค์" desc="จากลิงพร้อมไฟ RGB กับใหม่ด้วยโจทย์ ของอุโมงค์ 3x4 เมตร" onViewDetails={handleViewDetails} />
-            <ProductCard img={aiphotoImg} title="AI Photobooth" desc="ระบบ AI จากระดับมืออาชีพ ล้ำสมัยระดับโลก" onViewDetails={handleViewDetails} />
-          </div>
+          
+          {products.length === 0 ? (
+            <div className="text-center py-10">
+              <p className="text-gray-600">ไม่มีข้อมูลสินค้า</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {products.map((product) => (
+                <ProductCard 
+                  key={product.id}
+                  img={product.main_image_url || defaultImages[product.title]} 
+                  title={product.title} 
+                  desc={product.description} 
+                  onViewDetails={handleViewDetails} 
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

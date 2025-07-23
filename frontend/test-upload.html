@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Upload API</title>
+</head>
+<body>
+    <h1>Test Upload API</h1>
+    
+    <div>
+        <h3>Upload Main Image</h3>
+        <input type="file" id="mainImage" accept="image/*">
+        <button onclick="uploadMainImage()">Upload Main Image</button>
+        <div id="mainResult"></div>
+    </div>
+    
+    <div>
+        <h3>Upload Detail Images</h3>
+        <input type="file" id="detailImages" accept="image/*" multiple>
+        <button onclick="uploadDetailImages()">Upload Detail Images</button>
+        <div id="detailResult"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://pbbackend-api-4e56bf125d15.herokuapp.com';
+        
+        async function uploadMainImage() {
+            const fileInput = document.getElementById('mainImage');
+            const resultDiv = document.getElementById('mainResult');
+            
+            if (!fileInput.files[0]) {
+                resultDiv.innerHTML = '<p style="color: red;">Please select a file</p>';
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            
+            try {
+                resultDiv.innerHTML = '<p>Uploading...</p>';
+                
+                const response = await fetch(`${API_BASE_URL}/api/upload/main`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <p style="color: green;">Upload successful!</p>
+                        <p>URL: ${result.url}</p>
+                        <img src="${result.url}" style="max-width: 200px; max-height: 200px;">
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <p style="color: red;">Upload failed!</p>
+                        <p>Error: ${result.error || 'Unknown error'}</p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <p style="color: red;">Network error!</p>
+                    <p>Error: ${error.message}</p>
+                `;
+            }
+        }
+        
+        async function uploadDetailImages() {
+            const fileInput = document.getElementById('detailImages');
+            const resultDiv = document.getElementById('detailResult');
+            
+            if (!fileInput.files.length) {
+                resultDiv.innerHTML = '<p style="color: red;">Please select files</p>';
+                return;
+            }
+            
+            const formData = new FormData();
+            for (let file of fileInput.files) {
+                formData.append('images', file);
+            }
+            
+            try {
+                resultDiv.innerHTML = '<p>Uploading...</p>';
+                
+                const response = await fetch(`${API_BASE_URL}/api/upload/details`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <p style="color: green;">Upload successful!</p>
+                        <p>URLs: ${result.urls.join(', ')}</p>
+                        <div>
+                            ${result.urls.map(url => `<img src="${url}" style="max-width: 150px; max-height: 150px; margin: 5px;">`).join('')}
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <p style="color: red;">Upload failed!</p>
+                        <p>Error: ${result.error || 'Unknown error'}</p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <p style="color: red;">Network error!</p>
+                    <p>Error: ${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html> 

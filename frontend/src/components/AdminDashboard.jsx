@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { 
-  HiHome, 
-  HiCube, 
-  HiPhotograph, 
-  HiCalendar, 
-  HiChartBar, 
-  HiCog,
-  HiPlay
-} from 'react-icons/hi';
+  HomeIcon, 
+  CubeIcon, 
+  PhotoIcon, 
+  CalendarIcon, 
+  ChartBarIcon, 
+  Cog6ToothIcon,
+  PlayIcon,
+  ViewColumnsIcon
+} from '@heroicons/react/24/outline';
 import AdminSidebar from './admin/AdminSidebar';
 import AdminHeader from './admin/AdminHeader';
 import AdminOverview from './admin/AdminOverview';
@@ -17,19 +18,21 @@ import AdminBookings from './admin/AdminBookings';
 import AdminAnalytics from './admin/AdminAnalytics';
 import AdminSettings from './admin/AdminSettings';
 import AdminVideos from './admin/AdminVideos';
+import AdminImages from './admin/AdminImages';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const adminMenuItems = [
-    { id: 'overview', label: 'ภาพรวม', icon: <HiHome className="w-5 h-5" /> },
-    { id: 'products', label: 'สินค้า/บริการ', icon: <HiCube className="w-5 h-5" /> },
-    { id: 'gallery', label: 'แกลลอรี่', icon: <HiPhotograph className="w-5 h-5" /> },
-    { id: 'videos', label: 'วิดีโอ', icon: <HiPlay className="w-5 h-5" /> },
-    { id: 'bookings', label: 'การจอง', icon: <HiCalendar className="w-5 h-5" /> },
-    { id: 'analytics', label: 'สถิติ', icon: <HiChartBar className="w-5 h-5" /> },
-    { id: 'settings', label: 'ตั้งค่า', icon: <HiCog className="w-5 h-5" /> },
+    { id: 'overview', label: 'ภาพรวม', icon: <HomeIcon className="w-5 h-5" /> },
+    { id: 'products', label: 'สินค้า/บริการ', icon: <CubeIcon className="w-5 h-5" /> },
+    { id: 'gallery', label: 'แกลลอรี่', icon: <PhotoIcon className="w-5 h-5" /> },
+    { id: 'images', label: 'รูปภาพ', icon: <ViewColumnsIcon className="w-5 h-5" /> },
+    { id: 'videos', label: 'วิดีโอ', icon: <PlayIcon className="w-5 h-5" /> },
+    { id: 'bookings', label: 'การจอง', icon: <CalendarIcon className="w-5 h-5" /> },
+    { id: 'analytics', label: 'สถิติ', icon: <ChartBarIcon className="w-5 h-5" /> },
+    { id: 'settings', label: 'ตั้งค่า', icon: <Cog6ToothIcon className="w-5 h-5" /> },
   ];
 
   const renderContent = () => {
@@ -40,6 +43,8 @@ const AdminDashboard = () => {
         return <AdminProducts />;
       case 'gallery':
         return <AdminGallery />;
+      case 'images':
+        return <AdminImages />;
       case 'videos':
         return <AdminVideos />;
       case 'bookings':
