@@ -1,4 +1,4 @@
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaHamburger } from 'react-icons/fa';
 import React, { useEffect, useState } from 'react';
 import logo from '../assets/asset4.png'; // ✅ เปลี่ยนชื่อไฟล์ให้ไม่มีช่องว่าง
 
@@ -34,11 +34,16 @@ const Header = ({ open, setOpen, menuItems }) => {
         </nav>
         {/* Hamburger (Mobile) */}
         <button
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded bg-white text-blue-700 shadow hover:bg-blue-100 transition"
+          className="md:hidden flex flex-col items-center justify-center w-10 h-10 rounded-lg bg-transparent text-white border border-white/30 hover:bg-white/10 transition-all duration-200"
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle Menu"
         >
-          <FaBars size={24} />
+          {/* Custom hamburger icon */}
+          <div className="flex flex-col gap-1">
+            <div className="w-5 h-0.5 bg-white rounded"></div>
+            <div className="w-5 h-0.5 bg-white rounded"></div>
+            <div className="w-5 h-0.5 bg-white rounded"></div>
+          </div>
         </button>
       </div>
     </header>

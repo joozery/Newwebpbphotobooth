@@ -47,6 +47,27 @@
   display: none;
 }
 
+/* ซ่อน scrollbar ของ body และ html */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* ซ่อน scrollbar ของทุก element */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 /* Custom scrollbar สำหรับ sidebar */
 .custom-scrollbar {
   scrollbar-width: thin;

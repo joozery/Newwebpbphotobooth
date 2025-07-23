@@ -75,9 +75,9 @@ const VideoCard = ({ video, index }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-3 flex flex-col items-center min-w-[280px] sm:min-w-[320px] md:min-w-[280px] lg:min-w-[260px] xl:min-w-[280px]">
+    <div className="bg-white rounded-2xl shadow-lg p-2 sm:p-3 flex flex-col items-center w-full max-w-[85vw] sm:min-w-[320px] md:min-w-[320px] lg:min-w-[280px] xl:min-w-[300px]">
       <div 
-        className="relative w-full aspect-[9/16] rounded-xl border-2 border-red-300 flex items-center justify-center overflow-hidden mb-2 bg-gray-100 cursor-pointer hover:shadow-md transition-shadow"
+        className="relative w-full aspect-[9/16] rounded-xl border-2 border-red-300 flex items-center justify-center overflow-hidden mb-2 bg-gray-100 cursor-pointer hover:shadow-md transition-shadow max-h-[60vh] sm:max-h-none"
         onClick={handleVideoClick}
       >
         <video
@@ -93,22 +93,22 @@ const VideoCard = ({ video, index }) => {
         />
         {/* Play overlay for mobile */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-20">
-          <FaPlay className="text-white text-2xl" />
+          <FaPlay className="text-white text-3xl sm:text-4xl" />
         </div>
       </div>
       <div className="flex items-center justify-between w-full px-1 mt-1">
-        <span className="flex items-center text-xs text-rose-400 font-semibold gap-1">
+        <span className="flex items-center text-sm text-rose-400 font-semibold gap-1">
           <FaRegClock /> {video.duration || '0:00'}
         </span>
-        <button className="text-rose-400 bg-white border border-rose-200 rounded-full p-1 hover:bg-rose-50 transition-colors">
-          <FaPlus className="text-xs" />
+        <button className="text-rose-400 bg-white border border-rose-200 rounded-full p-1.5 hover:bg-rose-50 transition-colors">
+          <FaPlus className="text-sm" />
         </button>
       </div>
       {video.title && (
         <div className="text-center mt-2 w-full">
-          <h3 className="text-sm font-semibold text-gray-800 truncate">{video.title}</h3>
+          <h3 className="text-base font-semibold text-gray-800 truncate">{video.title}</h3>
           {video.subtitle && (
-            <p className="text-xs text-gray-600 truncate">{video.subtitle}</p>
+            <p className="text-sm text-gray-600 truncate">{video.subtitle}</p>
           )}
         </div>
       )}
@@ -251,15 +251,15 @@ const PortfolioVideoSection = () => {
         
         <div className="relative">
           {/* Mobile: Full width container */}
-          <div className="sm:hidden relative px-4">
+          <div className="sm:hidden relative px-2">
             {/* Left Arrow - Mobile */}
             {currentSlide > 0 && (
               <button
                 onClick={() => handleNavigation('prev')}
-                className="absolute left-0 top-1/2 transform -translate-y-1/2 z-30 bg-red-500 hover:bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg border border-red-600 transition-all duration-300 active:scale-95"
+                className="absolute left-1 top-1/2 transform -translate-y-1/2 z-30 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border border-red-600 transition-all duration-300 active:scale-95"
                 aria-label="Previous video"
               >
-                <FaChevronLeft className="text-lg" />
+                <FaChevronLeft className="text-sm" />
               </button>
             )}
 
@@ -267,10 +267,10 @@ const PortfolioVideoSection = () => {
             {currentSlide < maxSlides && (
               <button
                 onClick={() => handleNavigation('next')}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 z-30 bg-red-500 hover:bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg border border-red-600 transition-all duration-300 active:scale-95"
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 z-30 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border border-red-600 transition-all duration-300 active:scale-95"
                 aria-label="Next video"
               >
-                <FaChevronRight className="text-lg" />
+                <FaChevronRight className="text-sm" />
               </button>
             )}
 
@@ -287,7 +287,7 @@ const PortfolioVideoSection = () => {
               </div>
               
               <div 
-                className="flex gap-4 transition-transform duration-500 ease-in-out"
+                className="flex transition-transform duration-500 ease-in-out"
                 style={{
                   transform: `translateX(-${currentSlide * 100}%)`,
                   width: `${videos.length * 100}%`
@@ -296,8 +296,7 @@ const PortfolioVideoSection = () => {
                 {videos.map((video, index) => (
                   <div 
                     key={video.id} 
-                    className="flex-shrink-0 w-full"
-                    style={{ width: `${100 / videos.length}%` }}
+                    className="flex-shrink-0 w-full px-1"
                   >
                     <VideoCard video={video} index={index} />
                   </div>
@@ -341,7 +340,7 @@ const PortfolioVideoSection = () => {
             {/* Video Container - Desktop */}
             <div className="overflow-hidden">
               <div 
-                className="flex gap-4 lg:gap-6 transition-transform duration-500 ease-in-out"
+                className="flex gap-8 lg:gap-10 xl:gap-12 transition-transform duration-500 ease-in-out"
                 style={{
                   transform: `translateX(-${currentSlide * (100 / videosToShow)}%)`,
                   width: `${(videos.length / videosToShow) * 100}%`
