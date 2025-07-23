@@ -190,7 +190,7 @@ const PromotionSection = () => {
             <div className="space-y-6">
               {/* หัวข้อ */}
               <div>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+                <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-2">
                   PROMOTION
                 </h2>
                 <h3 className="text-2xl md:text-3xl font-semibold mb-4">
@@ -201,16 +201,13 @@ const PromotionSection = () => {
               {/* รายละเอียด */}
               <div className="space-y-3 text-base md:text-lg leading-relaxed">
                 <p>
-                  ที่ PB PHOTO BOOTH สร้างสรรค์สำหรับคุณ
+                 โปรดี โปรเด็ด เฉพาะช่วงเวลานี้เท่านั้น!
                 </p>
                 <p>
-                  ประกอบไปด้วย ถ่ายรูปชุดใหญ่ครบครัน พื้นหลังแตกต่าง
+                  จองง่าย ได้ส่วนลด จัดเต็มทุกความประทับใจ
                 </p>
                 <p>
-                  ประกอบด้วยชุดใหญ่ในแต่ละแพ็ค ราคาพิเศษ ไม่เสียใจถ้าไม่มาพบ
-                </p>
-                <p>
-                  กับความสนุก และอีกมากมาย พร้อมด้วยทีมงานมืออาชีพพร้อมให้บริการ
+                  ให้ทุกงานของคุณสนุกสุด ยิ้มไม่หุบ กับ PB PHOTO BOOTH
                 </p>
               </div>
 

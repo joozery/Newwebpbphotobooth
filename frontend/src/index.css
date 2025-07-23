@@ -4,6 +4,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ซ่อน scrollbar */
+.scrollbar-hide {
+  /* สำหรับ Firefox */
+  scrollbar-width: none;
+  /* สำหรับ WebKit browsers (Chrome, Safari) */
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Root และฟอนต์หลัก */
 :root {
   font-family: 'Prompt', system-ui, sans-serif;

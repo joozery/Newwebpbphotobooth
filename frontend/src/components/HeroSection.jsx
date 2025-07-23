@@ -110,16 +110,16 @@ const HeroSection = () => {
             viewport={{ once: true }}
           >
             <motion.h1
-              className="text-2xl sm:text-4xl md:text-6xl font-bold font-prompt drop-shadow-md"
+              className="text-2xl sm:text-4xs md:text-5xl font-bold font-prompt drop-shadow-md"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              สร้างสีสันให้งาน
+              สร้างสีสันให้งานของคุณ
             </motion.h1>
 
             <motion.h1
-              className="text-2xl sm:text-4xl md:text-6xl font-bold font-prompt drop-shadow-md mt-1"
+              className="text-2xl sm:text-4xl md:text-5xl font-bold font-prompt drop-shadow-md mt-1"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15 }}
@@ -128,7 +128,7 @@ const HeroSection = () => {
             </motion.h1>
             
             <motion.h2
-              className="text-lg sm:text-2xl md:text-4xl font-bold text-yellow-400 mt-4 md:mt-8 drop-shadow-md"
+              className="text-lg sm:text-2xl md:text-6xl font-bold text-yellow-400 mt-4 md:mt-8 drop-shadow-md"
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}

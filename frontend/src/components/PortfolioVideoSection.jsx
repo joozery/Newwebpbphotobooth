@@ -19,7 +19,6 @@ const PortfolioVideoSection = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {videos.map((v, i) => (
           <div key={i} className="bg-white rounded-2xl shadow p-3 flex flex-col items-center">
-            <div className="w-full mb-2 font-semibold text-black text-sm md:text-base text-left px-1">{v.title}</div>
             <div className="relative w-full aspect-[9/16] rounded-xl border-2 border-red-300 flex items-center justify-center overflow-hidden mb-2 bg-gray-100">
               <video
                 src={v.src}
