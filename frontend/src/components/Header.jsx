@@ -14,7 +14,7 @@ const Header = ({ open, setOpen, menuItems }) => {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ${scrolled ? 'bg-gradient-to-r from-blue-900 to-blue-600 shadow-md' : 'bg-transparent'}`}>
+    <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-blue-900 to-blue-600 shadow-md transition-colors duration-500">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 md:px-10 h-16 md:h-20">
         {/* Logo */}
         <div className="flex-shrink-0">
