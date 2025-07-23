@@ -15,8 +15,7 @@ const clients = [clients1, clients2, clients3, clients4, clients5, clients6, cli
 const OurClientsSection = () => (
   <section className="w-full py-10 bg-white">
     <div className="max-w-screen-xl mx-auto px-4 md:px-10">
-      <h2 className="text-2xl md:text-3xl font-bold text-black mb-4">OUR CLIENTS</h2>
-      <p className="text-center text-gray-500 mb-8">ลูกค้าบางส่วนที่ไว้วางใจ PhotoBooth Pro</p>
+      <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">OUR CLIENTS</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center">
         {clients.map((logo, i) => (
           <div

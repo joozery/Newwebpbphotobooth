@@ -8,6 +8,7 @@ import GallerySection from "./GallerySection";
 import OurClientsSection from "./OurClientsSection";
 import FacebookReviewsSection from "./FacebookReviewsSection";
 import PromotionSection from "./PromotionSection";
+import ReviewsAndSocialSection from "./ReviewsAndSocialSection";
 
 const Home = () => {
   return (
@@ -19,8 +20,9 @@ const Home = () => {
       <PBMemorySection />
       <PortfolioVideoSection />
       <GallerySection />
-      <OurClientsSection />
+      <ReviewsAndSocialSection />
       <FacebookReviewsSection />
+      <OurClientsSection />
     </>
   );
 };

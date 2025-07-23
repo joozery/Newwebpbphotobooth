@@ -51,7 +51,7 @@ const productDatabase = {
       'รวมค่าตั้งค่าและทีมงาน',
       'ไม่รวมค่าเดินทางต่างจังหวัด'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [photoboothImg, B1Img, B2Img] // เพิ่มรูปแกลเลอรี่
   },
   'pb-memory': {
@@ -84,7 +84,7 @@ const productDatabase = {
       'รวมการฝึกอบรมการใช้งาน',
       'รองรับได้ไม่จำกัดจำนวนผู้ใช้'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [blessImg, miniaiImg, aiphotoImg]
   },
   '360-video-booth': {
@@ -117,7 +117,7 @@ const productDatabase = {
       'รวมการติดตั้งและทดสอบ',
       'รวมทีมงานเทคนิค 2 คน'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [video360Img, B3Img, B4Img]
   },
   'ai-photobooth': {
@@ -150,7 +150,7 @@ const productDatabase = {
       'รวมการปรับแต่ง AI Model',
       'รวมทีมงานเทคนิค AI'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [aiphotoImg, miniaiImg, aumongImg]
   },
   'photobooth-box-b1': {
@@ -183,7 +183,7 @@ const productDatabase = {
       'รวมอุปกรณ์ตกแต่งครบชุด',
       'รวมทีมงานจัดแต่งและดูแล'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [B1Img, photoboothImg, blessImg]
   },
   'photobooth-box-b2': {
@@ -216,7 +216,7 @@ const productDatabase = {
       'รวมการตกแต่งสไตล์คลาสสิค',
       'รวม Props พิเศษ'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [B2Img, B1Img, photoboothImg]
   },
   'photobooth-box-b3': {
@@ -249,7 +249,7 @@ const productDatabase = {
       'รวมอุปกรณ์แสงมืออาชีพ',
       'รวมการจัดเตรียมพื้นหลัง'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [B3Img, B4Img, video360Img]
   },
   'photobooth-box-b4': {
@@ -282,7 +282,7 @@ const productDatabase = {
       'รวมการจัดแต่งสไตล์บาร์',
       'รวม Props และอุปกรณ์พิเศษ'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [B4Img, B3Img, aiphotoImg]
   },
   'ai-mini-studio': {
@@ -315,7 +315,7 @@ const productDatabase = {
       'รวมการปรับแต่ง AI Model งานแต่ง',
       'รวมฟิลเตอร์และเอฟเฟกต์พิเศษ'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [miniaiImg, aiphotoImg, blessImg]
   },
   'อุโมงค์': {
@@ -348,7 +348,7 @@ const productDatabase = {
       'รวมการติดตั้งและการออกแบบ',
       'รวมทีมงานเทคนิค 4 คน'
     ],
-    contact: 'Line: @pbphotobooth หรือ Tel: 02-XXX-XXXX',
+    contact: 'Line: @pbphotobooth หรือ Tel: 096-962-6465 บีม, 082-491-5575 พี',
     gallery: [aumongImg, video360Img, B1Img]
   }
 };
@@ -469,42 +469,82 @@ const ProductDetailPage = () => {
 
             {/* Features */}
             <div className="bg-white rounded-xl p-6 shadow-md">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">คุณสมบัติเด่น</h3>
-              <ul className="space-y-3">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">คุณสมบัติเด่น</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {product.features.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="text-green-500 mr-3 mt-1">✓</span>
-                    <span className="text-gray-700">{feature}</span>
-                  </li>
+                  <div key={index} className="flex items-start p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div className="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-4 mt-0.5">
+                      <span className="text-white text-sm font-bold">✓</span>
+                    </div>
+                    <span className="text-gray-700 leading-relaxed">{feature}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
 
             {/* Specifications */}
             <div className="bg-white rounded-xl p-6 shadow-md">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">ข้อมูลทางเทคนิค</h3>
-              <ul className="space-y-3">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">ข้อมูลทางเทคนิค</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {product.specifications.map((spec, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="text-blue-500 mr-3 mt-1">•</span>
-                    <span className="text-gray-700">{spec}</span>
-                  </li>
+                  <div key={index} className="flex items-start p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div className="flex-shrink-0 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-4 mt-0.5">
+                      <span className="text-white text-sm font-bold">•</span>
+                    </div>
+                    <span className="text-gray-700 leading-relaxed">{spec}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
 
             {/* Contact & Action Buttons */}
             <div className="bg-white rounded-xl p-6 shadow-md">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">ติดต่อสอบถาม</h3>
-              <p className="text-gray-700 mb-6">{product.contact}</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">ติดต่อสอบถาม</h3>
+              <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm">💬</span>
+                  </div>
+                  <span className="text-gray-700 font-medium">Line: @pbphotobooth</span>
+                </div>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm">📞</span>
+                  </div>
+                  <span className="text-gray-700 font-medium">096-962-6465 บีม</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm">📞</span>
+                  </div>
+                  <span className="text-gray-700 font-medium">082-491-5575 พี</span>
+                </div>
+              </div>
               
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="flex-1 bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 transition text-lg">
+              <div className="flex flex-col gap-6">
+                <button 
+                  onClick={() => window.open('https://line.me/R/ti/p/@pbphotobooth', '_blank')}
+                  className="w-full bg-blue-600 text-white py-5 px-6 rounded-lg font-semibold hover:bg-blue-700 transition text-xl flex items-center justify-center gap-3"
+                >
                   💬 สอบถามราคา
                 </button>
-                <button className="flex-1 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition text-lg">
-                  📅 จองเลย
-                </button>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <button 
+                    onClick={() => window.open('tel:0969626465', '_self')}
+                    className="w-full bg-green-600 text-white py-5 px-6 rounded-lg font-semibold hover:bg-green-700 transition text-lg flex items-center justify-center gap-3"
+                  >
+                    <span className="text-2xl">📞</span>
+                    <span>โทร บีม</span>
+                  </button>
+                  <button 
+                    onClick={() => window.open('tel:0824915575', '_self')}
+                    className="w-full bg-green-600 text-white py-5 px-6 rounded-lg font-semibold hover:bg-green-700 transition text-lg flex items-center justify-center gap-3"
+                  >
+                    <span className="text-2xl">📞</span>
+                    <span>โทร พี</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

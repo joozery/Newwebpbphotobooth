@@ -16,6 +16,57 @@
   display: none;
 }
 
+/* Custom scrollbar สำหรับ sidebar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f3f4f6;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Promotion Popup Swiper Styles */
+.promotion-popup-swiper .swiper-button-next,
+.promotion-popup-swiper .swiper-button-prev {
+  color: #f97316;
+  background: rgba(255, 255, 255, 0.9);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.promotion-popup-swiper .swiper-button-next:after,
+.promotion-popup-swiper .swiper-button-prev:after {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.promotion-popup-swiper .swiper-pagination-bullet {
+  background: #f97316;
+  opacity: 0.5;
+}
+
+.promotion-popup-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: #f97316;
+}
+
 /* Root และฟอนต์หลัก */
 :root {
   font-family: 'Prompt', system-ui, sans-serif;

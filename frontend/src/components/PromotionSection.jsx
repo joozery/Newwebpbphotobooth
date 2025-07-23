@@ -1,10 +1,11 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
-
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // รูป slidepromotion
 import Pro01 from '../assets/slidepromotion/Pro01.png';
@@ -14,6 +15,7 @@ import Pro03 from '../assets/slidepromotion/Pro03.png';
 const promotionImages = [Pro01, Pro02, Pro03];
 
 const PromotionSection = () => {
+  const [showPopup, setShowPopup] = useState(false);
   return (
     <section className="w-full py-16 md:py-24 bg-gradient-to-r from-yellow-500 via-orange-400 to-yellow-600 relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -213,24 +215,94 @@ const PromotionSection = () => {
 
               {/* ปุ่ม CTA */}
               <div className="flex flex-wrap gap-4 pt-4">
-                <button className="bg-white hover:bg-gray-100 text-orange-600 font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2">
+                <button 
+                  onClick={() => setShowPopup(true)}
+                  className="bg-white hover:bg-gray-100 text-orange-600 font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2"
+                >
                   <span>ดูโปรโมชั่น</span>
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
                   </svg>
                 </button>
                 
-                <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-orange-600 font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2">
+                <a 
+                  href="https://line.me/ti/p/@pbphotobooth" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-orange-600 font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2"
+                >
                   <span>ติดต่อเรา</span>
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
                   </svg>
-                </button>
+                </a>
               </div>
             </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Promotion Popup */}
+      <AnimatePresence>
+        {showPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-6"
+            onClick={() => setShowPopup(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-white rounded-2xl max-w-3xl w-full max-h-[60vh] overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+
+
+              {/* Slider Content */}
+              <div className="p-0">
+                <Swiper
+                  modules={[Autoplay, Navigation, Pagination]}
+                  spaceBetween={0}
+                  slidesPerView={1}
+                  autoplay={{
+                    delay: 4000,
+                    disableOnInteraction: false,
+                  }}
+                  loop={true}
+                  navigation={true}
+                  pagination={{ clickable: true }}
+                  className="promotion-popup-swiper h-[calc(60vh-60px)]"
+                >
+                  {promotionImages.map((image, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="w-full h-full flex items-center justify-center">
+                        <img
+                          src={image}
+                          alt={`Promotion ${index + 1}`}
+                          className="max-w-full max-h-full object-contain"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+
+              {/* Footer */}
+              <div className="bg-gray-50 p-4 text-center">
+                <button
+                  onClick={() => setShowPopup(false)}
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-full transition-colors duration-300"
+                >
+                  ปิด
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
