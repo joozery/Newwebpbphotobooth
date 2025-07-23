@@ -101,12 +101,7 @@ const VideoCard = ({ video, index }) => {
           playsInline
           poster={undefined}
         />
-        {/* Play button overlay for better UX */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity">
-          <div className="bg-white bg-opacity-90 rounded-full p-2">
-            <FaPlay className="text-red-500 text-sm" />
-          </div>
-        </div>
+
       </div>
       <div className="flex items-center justify-between w-full px-1 mt-1">
         <span className="flex items-center text-xs text-rose-400 font-semibold gap-1">

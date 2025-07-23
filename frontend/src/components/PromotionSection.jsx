@@ -259,16 +259,7 @@ const PromotionSection = () => {
               className="bg-white rounded-2xl w-full max-w-sm md:max-w-2xl lg:max-w-3xl max-h-[80vh] md:max-h-[60vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header with close button */}
-              <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
-                <h3 className="text-lg font-semibold text-gray-800">โปรโมชั่นพิเศษ</h3>
-                <button
-                  onClick={() => setShowPopup(false)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl p-1 hover:bg-gray-200 rounded-full transition"
-                >
-                  ×
-                </button>
-              </div>
+
 
               {/* Slider Content */}
               <div className="p-0">
@@ -283,7 +274,7 @@ const PromotionSection = () => {
                   loop={true}
                   navigation={true}
                   pagination={{ clickable: true }}
-                  className="promotion-popup-swiper h-[calc(80vh-140px)] md:h-[calc(60vh-140px)]"
+                  className="promotion-popup-swiper h-[calc(80vh-80px)] md:h-[calc(60vh-80px)]"
                 >
                   {promotionImages.map((image, index) => (
                     <SwiperSlide key={index}>
