@@ -9,9 +9,30 @@ import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+// ตัวอย่างข้อมูล (สามารถเปลี่ยนเป็นข้อมูลจริงได้)
+const vanpbContent = [
+  {
+    type: 'image',
+    src: vanpbImg,
+    alt: 'PB PhotoVan Image',
+    title: 'PB PhotoVan'
+  },
+  {
+    type: 'video',
+    src: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    title: 'PB PhotoVan Demo Video',
+    description: 'สาธิตการใช้งาน PB PhotoVan'
+  },
+  {
+    type: 'image',
+    src: vanpbImg, // เปลี่ยนเป็นรูปอื่นได้
+    alt: 'PB PhotoVan Interior',
+    title: 'ภายใน PB PhotoVan'
+  }
+];
+
 const VanpbSection = () => {
   const [showPopup, setShowPopup] = React.useState(false);
-  const vanpbImages = [vanpbImg]; // สามารถเพิ่มรูปอื่นๆ ได้ที่นี่
   return (
     <section className="w-full py-16 md:py-24 bg-gradient-to-r from-[#f5f5dc] via-[#faf0e6] to-[#f5e6d3] relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -80,7 +101,10 @@ const VanpbSection = () => {
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
                   </svg>
                 </button>
-                <button className="bg-transparent border-2 border-[#7c4a1e] text-[#7c4a1e] hover:bg-[#7c4a1e] hover:text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2">
+                <button 
+                  onClick={() => window.open('https://line.me/R/ti/p/@pbphotobooth', '_blank')}
+                  className="bg-transparent border-2 border-[#7c4a1e] text-[#7c4a1e] hover:bg-[#7c4a1e] hover:text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2"
+                >
                   <span>จองคิว</span>
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
@@ -137,14 +161,14 @@ const VanpbSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 md:p-6"
+            className="fixed inset-0 flex items-center justify-center z-50 p-4 md:p-6"
             onClick={() => setShowPopup(false)}
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-2xl w-full max-w-sm md:max-w-2xl lg:max-w-3xl max-h-[80vh] md:max-h-[60vh] overflow-hidden"
+              className="bg-white/10 backdrop-blur-xl rounded-2xl w-full max-w-sm md:max-w-2xl lg:max-w-3xl max-h-[80vh] md:max-h-[60vh] overflow-hidden shadow-2xl border border-white/20"
               onClick={e => e.stopPropagation()}
             >
               <div className="p-0">
@@ -161,23 +185,55 @@ const VanpbSection = () => {
                   pagination={{ clickable: true }}
                   className="vanpb-popup-swiper h-[calc(80vh-80px)] md:h-[calc(60vh-80px)]"
                 >
-                  {vanpbImages.map((image, index) => (
+                  {vanpbContent.map((item, index) => (
                     <SwiperSlide key={index}>
                       <div className="w-full h-full flex items-center justify-center p-4">
-                        <img
-                          src={image}
-                          alt={`Vanpb ${index + 1}`}
-                          className="max-w-full max-h-full object-contain rounded-lg"
-                        />
+                        {item.type === 'image' ? (
+                          <div className="w-full h-full flex flex-col items-center justify-center">
+                            <img
+                              src={item.src}
+                              alt={item.alt}
+                              className="max-w-full max-h-full object-contain rounded-lg"
+                            />
+                            {item.title && (
+                              <h4 className="text-lg font-semibold text-gray-900 mt-4 text-center">
+                                {item.title}
+                              </h4>
+                            )}
+                          </div>
+                        ) : item.type === 'video' ? (
+                          <div className="w-full h-full flex flex-col items-center justify-center">
+                            <div className="aspect-video w-full max-w-2xl bg-gray-100 rounded-xl overflow-hidden">
+                              <iframe
+                                src={item.src}
+                                title={item.title}
+                                className="w-full h-full"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              ></iframe>
+                            </div>
+                            {item.title && (
+                              <h4 className="text-lg font-semibold text-gray-900 mt-4 text-center">
+                                {item.title}
+                              </h4>
+                            )}
+                            {item.description && (
+                              <p className="text-gray-700 mt-2 text-center max-w-md">
+                                {item.description}
+                              </p>
+                            )}
+                          </div>
+                        ) : null}
                       </div>
                     </SwiperSlide>
                   ))}
                 </Swiper>
               </div>
-              <div className="bg-gray-50 p-4 text-center border-t">
+              <div className="bg-white/20 backdrop-blur-sm p-4 text-center border-t border-white/30">
                 <button
                   onClick={() => setShowPopup(false)}
-                  className="bg-[#7c4a1e] hover:bg-[#a67c52] text-white font-bold py-2 px-6 rounded-full transition-colors duration-300"
+                  className="bg-[#7c4a1e] hover:bg-[#a67c52] text-white font-bold py-2 px-6 rounded-full transition-colors duration-300 shadow-lg"
                 >
                   ปิด
                 </button>

@@ -1,8 +1,10 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import PBMemoryImg from '../assets/slidehero/PBMemory.png';
 
 const PBMemorySection = () => {
+  const [showVideoPopup, setShowVideoPopup] = useState(false);
+
   return (
     <section className="w-full py-16 md:py-24 bg-gradient-to-r from-purple-600 via-pink-500 to-purple-700 relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -190,14 +192,20 @@ const PBMemorySection = () => {
 
               {/* ปุ่ม CTA */}
               <div className="flex flex-wrap gap-4 pt-4">
-                <button className="bg-yellow-400 hover:bg-yellow-500 text-purple-800 font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2">
-                  <span>ราคาเริ่มต้นเพิม</span>
+                <button 
+                  onClick={() => setShowVideoPopup(true)}
+                  className="bg-yellow-400 hover:bg-yellow-500 text-purple-800 font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2"
+                >
+                  <span>สาธิตการใช้งาน</span>
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
                   </svg>
                 </button>
                 
-                <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-purple-700 font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2">
+                <button 
+                  onClick={() => window.open('https://pbphotobooth.netlify.app/event/11', '_blank')}
+                  className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-purple-700 font-bold py-3 px-6 rounded-full transition-colors duration-300 flex items-center gap-2"
+                >
                   <span>ทดลองใช้งาน</span>
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
@@ -208,6 +216,61 @@ const PBMemorySection = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Video Demo Popup */}
+      <AnimatePresence>
+        {showVideoPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowVideoPopup(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-white/10 backdrop-blur-xl rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl border border-white/20"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center p-6 border-b border-white/20">
+                <h3 className="text-2xl font-bold text-gray-900">สาธิตการใช้งาน PB Memory</h3>
+                <button 
+                  onClick={() => setShowVideoPopup(false)}
+                  className="text-gray-700 hover:text-gray-900 text-2xl p-2 hover:bg-gray-100 rounded-full transition"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Video Content */}
+              <div className="p-6">
+                <div className="aspect-video bg-gray-100 rounded-xl overflow-hidden">
+                  <iframe
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                    title="PB Memory Demo"
+                    className="w-full h-full"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                
+                {/* Description */}
+                <div className="mt-6 text-center">
+                  <h4 className="text-xl font-semibold text-gray-900 mb-2">PB Memory Mobile App</h4>
+                  <p className="text-gray-700 leading-relaxed">
+                    ดูวิธีการใช้งานแอปพลิเคชัน PB Memory สำหรับงานอีเวนต์ 
+                    ระบบเขียนอวยพรออนไลน์ที่สามารถปรับแต่งได้ตามธีมงาน
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

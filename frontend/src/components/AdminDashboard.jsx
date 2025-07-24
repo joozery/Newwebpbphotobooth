@@ -7,7 +7,10 @@ import {
   ChartBarIcon, 
   Cog6ToothIcon,
   PlayIcon,
-  ViewColumnsIcon
+  ViewColumnsIcon,
+  PresentationChartLineIcon,
+  MegaphoneIcon,
+  BuildingOfficeIcon
 } from '@heroicons/react/24/outline';
 import AdminSidebar from './admin/AdminSidebar';
 import AdminHeader from './admin/AdminHeader';
@@ -19,6 +22,9 @@ import AdminAnalytics from './admin/AdminAnalytics';
 import AdminSettings from './admin/AdminSettings';
 import AdminVideos from './admin/AdminVideos';
 import AdminImages from './admin/AdminImages';
+import AdminHeroSlides from './admin/AdminHeroSlides';
+import AdminPromotionSlides from './admin/AdminPromotionSlides';
+import AdminClients from './admin/AdminClients';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -26,6 +32,9 @@ const AdminDashboard = () => {
 
   const adminMenuItems = [
     { id: 'overview', label: 'ภาพรวม', icon: <HomeIcon className="w-5 h-5" /> },
+    { id: 'hero-slides', label: 'Hero Slides', icon: <PresentationChartLineIcon className="w-5 h-5" /> },
+    { id: 'promotion-slides', label: 'Promotion Slides', icon: <MegaphoneIcon className="w-5 h-5" /> },
+    { id: 'clients', label: 'ลูกค้า', icon: <BuildingOfficeIcon className="w-5 h-5" /> },
     { id: 'products', label: 'สินค้า/บริการ', icon: <CubeIcon className="w-5 h-5" /> },
     { id: 'gallery', label: 'แกลลอรี่', icon: <PhotoIcon className="w-5 h-5" /> },
     { id: 'images', label: 'รูปภาพ', icon: <ViewColumnsIcon className="w-5 h-5" /> },
@@ -39,6 +48,12 @@ const AdminDashboard = () => {
     switch (activeTab) {
       case 'overview':
         return <AdminOverview />;
+      case 'hero-slides':
+        return <AdminHeroSlides />;
+      case 'promotion-slides':
+        return <AdminPromotionSlides />;
+      case 'clients':
+        return <AdminClients />;
       case 'products':
         return <AdminProducts />;
       case 'gallery':

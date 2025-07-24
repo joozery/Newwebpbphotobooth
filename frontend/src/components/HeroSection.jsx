@@ -1,23 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
-
-// รูปในสไลด์
-import B1 from '../assets/slidehero/B1.png';
-import B2 from '../assets/slidehero/B2.png';
-import B3 from '../assets/slidehero/B3.png';
-import AI from '../assets/slidehero/Ai2.png';
-import B4 from '../assets/slidehero/B4.png';
-import pb from '../assets/slidehero/2x6-01.png';
-import pb2 from '../assets/slidehero/pb2.png';
-import pb3 from '../assets/slidehero/PBMemory.png';
-
-const images = [pb, pb2, AI, B1, B2, B3, B4, pb3];
+import { heroSlideService } from '../services/heroSlideService';
 
 const HeroSection = () => {
+  const [slides, setSlides] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchHeroSlides();
+  }, []);
+
+  const fetchHeroSlides = async () => {
+    try {
+      setLoading(true);
+      const data = await heroSlideService.getActiveSlides();
+      setSlides(data);
+    } catch (error) {
+      console.error('Error fetching hero slides:', error);
+      // Fallback to default images if API fails
+      setSlides([
+        {
+          id: 1,
+          image_url: '/src/assets/slidehero/B1.png',
+          title: 'Hero Slide 1',
+          alt_text: 'PB PhotoBooth Hero Image'
+        },
+        {
+          id: 2,
+          image_url: '/src/assets/slidehero/B2.png',
+          title: 'Hero Slide 2',
+          alt_text: 'PB PhotoBooth Hero Image'
+        },
+        {
+          id: 3,
+          image_url: '/src/assets/slidehero/B3.png',
+          title: 'Hero Slide 3',
+          alt_text: 'PB PhotoBooth Hero Image'
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="w-full py-16 md:py-24 bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -110,7 +139,7 @@ const HeroSection = () => {
             viewport={{ once: true }}
           >
             <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl font-bold font-prompt drop-shadow-lg"
+              className="text-2xl sm:text-4xs md:text-5xl font-bold font-prompt drop-shadow-md"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
@@ -119,7 +148,7 @@ const HeroSection = () => {
             </motion.h1>
 
             <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl font-bold font-prompt drop-shadow-lg mt-1"
+              className="text-2xl sm:text-4xl md:text-5xl font-bold font-prompt drop-shadow-md mt-1"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15 }}
@@ -128,7 +157,7 @@ const HeroSection = () => {
             </motion.h1>
             
             <motion.h2
-              className="text-2xl sm:text-3xl md:text-6xl font-bold text-yellow-400 mt-4 md:mt-8 drop-shadow-lg"
+              className="text-lg sm:text-2xl md:text-6xl font-bold text-yellow-400 mt-4 md:mt-8 drop-shadow-md"
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
@@ -137,7 +166,7 @@ const HeroSection = () => {
             </motion.h2>
             
             <motion.p
-              className="mt-2 md:mt-4 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg drop-shadow-md"
+              className="mt-2 md:mt-4 text-sm sm:text-base md:text-xl leading-relaxed max-w-lg drop-shadow-sm"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.6 }}
@@ -160,24 +189,38 @@ const HeroSection = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <Swiper
-                  modules={[Autoplay]}
-                  autoplay={{ delay: 2500, disableOnInteraction: false }}
-                  loop={true}
-                  spaceBetween={20}
-                >
-                  {images.map((src, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[560px] flex items-center justify-center">
-                        <img
-                          src={src}
-                          alt={`Slide ${index}`}
-                          className="rounded-xl max-h-full max-w-full"
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+                {loading ? (
+                  <div className="w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[560px] flex items-center justify-center bg-white/10 rounded-xl">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+                  </div>
+                ) : slides.length > 0 ? (
+                  <Swiper
+                    modules={[Autoplay]}
+                    autoplay={{ delay: 2500, disableOnInteraction: false }}
+                    loop={true}
+                    spaceBetween={20}
+                  >
+                    {slides.map((slide) => (
+                      <SwiperSlide key={slide.id}>
+                        <div className="w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[560px] flex items-center justify-center">
+                          <img
+                            src={slide.image_url}
+                            alt={slide.alt_text || slide.title || 'PB PhotoBooth Hero Image'}
+                            className="rounded-xl max-h-full max-w-full object-cover"
+                            onError={(e) => {
+                              console.error('Error loading image:', slide.image_url);
+                              e.target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                ) : (
+                  <div className="w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[560px] flex items-center justify-center bg-white/10 rounded-xl">
+                    <p className="text-white/70 text-center">ไม่มีรูปภาพ Hero Slides</p>
+                  </div>
+                )}
               </motion.div>
               
               {/* Animated Decorative elements */}

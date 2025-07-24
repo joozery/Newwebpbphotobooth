@@ -1089,11 +1089,11 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
                       type="button"
                       onClick={() => {
                         console.log('🗑️ User clicked delete main image button');
-                        setFormData({ 
-                          ...formData, 
+                        setFormData(prev => ({ 
+                          ...prev, 
                           currentMainImageUrl: null,
                           shouldDeleteMainImage: true 
-                        });
+                        }));
                         console.log('✅ shouldDeleteMainImage set to true');
                       }}
                       className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
@@ -1161,12 +1161,12 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
                             console.log('🗑️ User clicked delete detail image button, index:', index);
                             console.log('🗑️ Original detail images:', formData.currentDetailImageUrls);
                             console.log('🗑️ New detail images after deletion:', newUrls);
-                            setFormData({ 
-                              ...formData, 
+                            setFormData(prev => ({ 
+                              ...prev, 
                               currentDetailImageUrls: newUrls,
                               // ถ้าลบรูปภาพรายละเอียดหมดแล้ว ให้เซ็ต flag การลบ
                               shouldDeleteDetailImages: newUrls.length === 0
-                            });
+                            }));
                             console.log('✅ shouldDeleteDetailImages set to:', newUrls.length === 0);
                           }}
                           className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -6,16 +6,50 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
-// รูป slidepromotion
-import Pro01 from '../assets/slidepromotion/Pro01.png';
-import Pro02 from '../assets/slidepromotion/Pro02.png';
-import Pro03 from '../assets/slidepromotion/Pro03.png';
-
-const promotionImages = [Pro01, Pro02, Pro03];
+import { promotionSlideService } from '../services/promotionSlideService';
 
 const PromotionSection = () => {
   const [showPopup, setShowPopup] = useState(false);
+  const [slides, setSlides] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPromotionSlides();
+  }, []);
+
+  const fetchPromotionSlides = async () => {
+    try {
+      setLoading(true);
+      const data = await promotionSlideService.getActiveSlides();
+      setSlides(data);
+    } catch (error) {
+      console.error('Error fetching promotion slides:', error);
+      // Fallback to default images if API fails
+      setSlides([
+        {
+          id: 1,
+          image_url: '/src/assets/slidepromotion/Pro01.png',
+          title: 'Promotion 1',
+          alt_text: 'PB PhotoBooth Promotion'
+        },
+        {
+          id: 2,
+          image_url: '/src/assets/slidepromotion/Pro02.png',
+          title: 'Promotion 2',
+          alt_text: 'PB PhotoBooth Promotion'
+        },
+        {
+          id: 3,
+          image_url: '/src/assets/slidepromotion/Pro03.png',
+          title: 'Promotion 3',
+          alt_text: 'PB PhotoBooth Promotion'
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="w-full py-16 md:py-24 bg-gradient-to-r from-yellow-500 via-orange-400 to-yellow-600 relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -114,29 +148,43 @@ const PromotionSection = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <Swiper
-                  modules={[Autoplay]}
-                  spaceBetween={0}
-                  slidesPerView={1}
-                  autoplay={{
-                    delay: 3000,
-                    disableOnInteraction: false,
-                  }}
-                  loop={true}
-                  className="rounded-lg overflow-hidden"
-                >
-                  {promotionImages.map((image, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="aspect-[4/3]">
-                        <img
-                          src={image}
-                          alt={`Promotion ${index + 1}`}
-                          className="w-full h-full object-contain rounded-lg"
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+                {loading ? (
+                  <div className="w-full h-full flex items-center justify-center bg-white/10 rounded-lg">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+                  </div>
+                ) : slides.length > 0 ? (
+                  <Swiper
+                    modules={[Autoplay]}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    autoplay={{
+                      delay: 3000,
+                      disableOnInteraction: false,
+                    }}
+                    loop={true}
+                    className="rounded-lg overflow-hidden"
+                  >
+                    {slides.map((slide) => (
+                      <SwiperSlide key={slide.id}>
+                        <div className="aspect-[4/3]">
+                          <img
+                            src={slide.image_url}
+                            alt={slide.alt_text || slide.title || 'PB PhotoBooth Promotion'}
+                            className="w-full h-full object-contain rounded-lg"
+                            onError={(e) => {
+                              console.error('Error loading image:', slide.image_url);
+                              e.target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-white/10 rounded-lg">
+                    <p className="text-white/70 text-center">ไม่มีรูปภาพ Promotion</p>
+                  </div>
+                )}
               </motion.div>
               
               {/* Animated Decorative elements */}
@@ -249,52 +297,60 @@ const PromotionSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 md:p-6"
+            className="fixed inset-0 flex items-center justify-center z-50 p-4 md:p-6"
             onClick={() => setShowPopup(false)}
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-2xl w-full max-w-sm md:max-w-2xl lg:max-w-3xl max-h-[80vh] md:max-h-[60vh] overflow-hidden"
+              className="bg-white/30 backdrop-blur-lg rounded-2xl w-full max-w-sm md:max-w-2xl lg:max-w-3xl max-h-[80vh] md:max-h-[60vh] overflow-hidden shadow-2xl border border-white/30"
               onClick={(e) => e.stopPropagation()}
             >
-
-
               {/* Slider Content */}
               <div className="p-0">
-                <Swiper
-                  modules={[Autoplay, Navigation, Pagination]}
-                  spaceBetween={0}
-                  slidesPerView={1}
-                  autoplay={{
-                    delay: 4000,
-                    disableOnInteraction: false,
-                  }}
-                  loop={true}
-                  navigation={true}
-                  pagination={{ clickable: true }}
-                  className="promotion-popup-swiper h-[calc(80vh-80px)] md:h-[calc(60vh-80px)]"
-                >
-                  {promotionImages.map((image, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="w-full h-full flex items-center justify-center p-4">
-                        <img
-                          src={image}
-                          alt={`Promotion ${index + 1}`}
-                          className="max-w-full max-h-full object-contain rounded-lg"
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+                {slides.length > 0 ? (
+                  <Swiper
+                    modules={[Autoplay, Navigation, Pagination]}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    autoplay={{
+                      delay: 4000,
+                      disableOnInteraction: false,
+                    }}
+                    loop={true}
+                    navigation={true}
+                    pagination={{ clickable: true }}
+                    className="promotion-popup-swiper h-[calc(80vh-80px)] md:h-[calc(60vh-80px)]"
+                  >
+                    {slides.map((slide) => (
+                      <SwiperSlide key={slide.id}>
+                        <div className="w-full h-full flex items-center justify-center p-4">
+                          <img
+                            src={slide.image_url}
+                            alt={slide.alt_text || slide.title || 'PB PhotoBooth Promotion'}
+                            className="max-w-full max-h-full object-contain rounded-lg"
+                            onError={(e) => {
+                              console.error('Error loading image:', slide.image_url);
+                              e.target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center p-4">
+                    <p className="text-gray-500 text-center">ไม่มีรูปภาพ Promotion</p>
+                  </div>
+                )}
               </div>
 
               {/* Footer */}
-              <div className="bg-gray-50 p-4 text-center border-t">
+              <div className="bg-white/20 backdrop-blur-sm p-4 text-center border-t border-white/30">
                 <button
                   onClick={() => setShowPopup(false)}
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-full transition-colors duration-300"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-full transition-colors duration-300 shadow-lg"
                 >
                   ปิด
                 </button>

@@ -62,15 +62,15 @@ function ProductDetailModal({ isOpen, onClose, product }) {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden shadow-2xl border border-white/20">
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-black">{product.title}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{product.title}</h2>
             <button 
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-3xl p-2 hover:bg-gray-100 rounded-full transition"
+              className="text-gray-700 hover:text-gray-900 text-3xl p-2 hover:bg-gray-100 rounded-full transition"
             >
               <FaTimes />
             </button>
@@ -153,15 +153,15 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
   const specifications = formatSpecifications(product.technical_specs);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide shadow-2xl border border-white/20">
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-black">{product.title}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{product.title}</h2>
             <button 
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-3xl p-2 hover:bg-gray-100 rounded-full transition"
+              className="text-gray-700 hover:text-gray-900 text-3xl p-2 hover:bg-gray-100 rounded-full transition"
             >
               <FaTimes />
             </button>
@@ -200,7 +200,7 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
             {/* Right Column - Details */}
             <div className="space-y-6">
               {/* Description */}
-              <p className="text-xl text-gray-600 leading-relaxed">{product.description}</p>
+              <p className="text-xl text-gray-800 leading-relaxed">{product.description}</p>
 
               {/* Price */}
               <div className="bg-blue-50 rounded-xl p-6">
@@ -210,32 +210,32 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
                 </p>
                 <div className="space-y-2">
                   {priceDetails.map((detail, index) => (
-                    <p key={index} className="text-gray-700">• {detail}</p>
+                    <p key={index} className="text-gray-900">• {detail}</p>
                   ))}
                 </div>
               </div>
 
               {/* Contact & Action Buttons */}
               <div className="bg-gray-50 rounded-xl p-6">
-                <h3 className="text-xl font-bold text-black mb-6">ติดต่อสอบถาม</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-6">ติดต่อสอบถาม</h3>
                 <div className="bg-white rounded-lg p-4 mb-6 border border-gray-200">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                       <FaLine className="text-white text-sm" />
                     </div>
-                    <span className="text-gray-700 font-medium">Line: @pbphotobooth</span>
+                    <span className="text-gray-900 font-medium">Line: @pbphotobooth</span>
                   </div>
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                       <FaPhone className="text-white text-sm" />
                     </div>
-                    <span className="text-gray-700 font-medium">096-962-6465 บีม</span>
+                    <span className="text-gray-900 font-medium">096-962-6465 บีม</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                       <FaPhone className="text-white text-sm" />
                     </div>
-                    <span className="text-gray-700 font-medium">082-491-5575 พี</span>
+                    <span className="text-gray-900 font-medium">082-491-5575 พี</span>
                   </div>
                 </div>
                 
@@ -279,14 +279,14 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
 
           {/* Features */}
           <div className="mt-8 bg-white rounded-xl border p-6">
-            <h3 className="text-2xl font-bold text-black mb-6">คุณสมบัติเด่น</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">คุณสมบัติเด่น</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-start p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-4 mt-0.5">
                     <span className="text-white text-sm font-bold">✓</span>
                   </div>
-                  <span className="text-gray-700 leading-relaxed">{feature}</span>
+                  <span className="text-gray-900 leading-relaxed">{feature}</span>
                 </div>
               ))}
             </div>
@@ -294,14 +294,14 @@ function ProductModal({ isOpen, onClose, product, onMoreDetails }) {
 
           {/* Specifications */}
           <div className="mt-6 bg-gray-50 rounded-xl p-6">
-            <h3 className="text-2xl font-bold text-black mb-6">ข้อมูลทางเทคนิค</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">ข้อมูลทางเทคนิค</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {specifications.map((spec, index) => (
                 <div key={index} className="flex items-start p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
                   <div className="flex-shrink-0 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-4 mt-0.5">
                     <span className="text-white text-sm font-bold">•</span>
                   </div>
-                  <span className="text-gray-700 leading-relaxed">{spec}</span>
+                  <span className="text-gray-900 leading-relaxed">{spec}</span>
                 </div>
               ))}
             </div>
