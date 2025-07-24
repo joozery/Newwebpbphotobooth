@@ -14,17 +14,37 @@ import ReviewsAndSocialSection from "./ReviewsAndSocialSection";
 const Home = () => {
   return (
     <>
-      <HeroSection />
+      <div id="hero">
+        <HeroSection />
+      </div>
       <PromotionSection />
-      <ProductSection />
-      <AboutSection />
-      <VanpbSection />
-      <PBMemorySection />
-      <PortfolioVideoSection />
-      <GallerySection />
-      <ReviewsAndSocialSection />
-      <FacebookReviewsSection />
-      <OurClientsSection />
+      <div id="package">
+        <ProductSection />
+      </div>
+      <div id="about">
+        <AboutSection />
+      </div>
+      <div id="vanpb">
+        <VanpbSection />
+      </div>
+      <div id="pbmemory">
+        <PBMemorySection />
+      </div>
+      <div id="portfolio">
+        <PortfolioVideoSection />
+      </div>
+      <div id="gallery">
+        <GallerySection />
+      </div>
+      <div id="reviews">
+        <ReviewsAndSocialSection />
+      </div>
+      <div id="facebook-reviews">
+        <FacebookReviewsSection />
+      </div>
+      <div id="clients">
+        <OurClientsSection />
+      </div>
     </>
   );
 };

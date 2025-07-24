@@ -362,12 +362,13 @@ const ProductDetailPage = () => {
 
   // Menu items สำหรับ navbar
   const menuItems = [
-    { label: 'HOME', href: '/' },
-    { label: 'ABOUT US', href: '/#about' },
-    { label: 'PORTFOLIO', href: '/#portfolio' },
-    { label: 'PACKAGE', href: '/#package' },
-    { label: 'OUR CLIENTS', href: '/#clients' },
-    { label: 'CONTACT', href: '/#contact' },
+    { label: 'HOME', sectionId: 'hero' },
+    { label: 'PACKAGE', sectionId: 'package' },
+    { label: 'PB PHOTOVAN', sectionId: 'vanpb' },
+    { label: 'PB MEMORY', sectionId: 'pbmemory' },
+    { label: 'PORTFOLIO', sectionId: 'portfolio' },
+    { label: 'ABOUTS', sectionId: 'about' },
+    { label: 'CONTACT', sectionId: 'contact' },
   ];
 
   useEffect(() => {

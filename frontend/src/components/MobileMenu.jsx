@@ -2,6 +2,26 @@ import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 export default function MobileMenu({ open, setOpen, menuItems, logo }) {
+  const scrollToSection = (sectionId) => {
+    // ถ้าอยู่ในหน้า ProductDetailPage และคลิก HOME ให้กลับไปหน้าแรก
+    if (sectionId === 'hero' && window.location.pathname !== '/') {
+      window.location.href = '/';
+      setOpen(false);
+      return;
+    }
+    
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerHeight = window.innerWidth >= 1024 ? 96 : window.innerWidth >= 768 ? 88 : 80; // Responsive header height
+      const elementPosition = element.offsetTop - headerHeight;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+    setOpen(false);
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -21,24 +41,22 @@ export default function MobileMenu({ open, setOpen, menuItems, logo }) {
             <FaTimes size={28} />
           </button>
         </div>
-        <nav className="flex flex-col gap-4 px-4 pt-6 pb-8">
+        <nav className="flex flex-col gap-3 px-4 pt-6 pb-8">
           {menuItems.map((item) => (
-            <a
+            <button
               key={item.label}
-              href={item.href}
-              className="text-gray-800 font-medium text-lg py-2 rounded hover:text-blue-600 hover:bg-blue-50 transition text-center"
-              onClick={() => setOpen(false)}
+              onClick={() => scrollToSection(item.sectionId)}
+              className="text-gray-800 font-medium text-lg py-3 rounded hover:text-blue-600 hover:bg-blue-50 transition text-center bg-transparent border-none cursor-pointer w-full"
             >
               {item.label}
-            </a>
+            </button>
           ))}
-          <a
-            href="#contact"
-            className="mt-4 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow hover:from-blue-700 hover:to-indigo-700 transition text-center text-lg"
-            onClick={() => setOpen(false)}
+          <button
+            onClick={() => scrollToSection('contact')}
+            className="mt-4 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow hover:from-blue-700 hover:to-indigo-700 transition text-center text-lg border-none cursor-pointer"
           >
             CONTACT US
-          </a>
+          </button>
           <a
             href="https://facebook.com"
             target="_blank"

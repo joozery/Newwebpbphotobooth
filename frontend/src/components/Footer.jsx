@@ -3,7 +3,7 @@ import logo from '../assets/pblogo.png';
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200 pt-10 pb-4 px-4 md:px-16">
+    <footer id="contact" className="bg-white border-t border-gray-200 pt-10 pb-4 px-4 md:px-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo & Description */}
         <div className="flex flex-col items-start">

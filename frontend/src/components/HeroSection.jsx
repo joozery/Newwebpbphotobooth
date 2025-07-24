@@ -48,7 +48,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="w-full py-16 md:py-24 bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 relative overflow-hidden">
+    <section className="w-full pt-24 md:pt-24 lg:pt-28 pb-16 md:pb-24 bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating circles */}
