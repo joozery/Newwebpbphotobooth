@@ -19,20 +19,33 @@ const vanpbContent = [
   },
   {
     type: 'video',
-    src: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    videoId: '7529373447554665736',
     title: 'PB PhotoVan Demo Video',
     description: 'สาธิตการใช้งาน PB PhotoVan'
   },
   {
-    type: 'image',
-    src: vanpbImg, // เปลี่ยนเป็นรูปอื่นได้
-    alt: 'PB PhotoVan Interior',
-    title: 'ภายใน PB PhotoVan'
+    type: 'video',
+    videoId: '7529841551799864584',
+    title: 'PB PhotoVan Interior',
+    description: 'ภายใน PB PhotoVan'
   }
 ];
 
 const VanpbSection = () => {
   const [showPopup, setShowPopup] = React.useState(false);
+  
+  // Load TikTok embed script
+  React.useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://www.tiktok.com/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+    
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+  
   return (
     <section className="w-full py-16 md:py-24 bg-gradient-to-r from-[#f5f5dc] via-[#faf0e6] to-[#f5e6d3] relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -204,14 +217,14 @@ const VanpbSection = () => {
                         ) : item.type === 'video' ? (
                           <div className="w-full h-full flex flex-col items-center justify-center">
                             <div className="aspect-video w-full max-w-2xl bg-gray-100 rounded-xl overflow-hidden">
-                              <iframe
-                                src={item.src}
-                                title={item.title}
-                                className="w-full h-full"
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                              ></iframe>
+                              <blockquote
+                                className="tiktok-embed"
+                                cite={`https://www.tiktok.com/@pb.photobooth/video/${item.videoId}`}
+                                data-video-id={item.videoId}
+                                style={{ maxWidth: '605px', minWidth: '325px' }}
+                              >
+                                <section></section>
+                              </blockquote>
                             </div>
                             {item.title && (
                               <h4 className="text-lg font-semibold text-gray-900 mt-4 text-center">
