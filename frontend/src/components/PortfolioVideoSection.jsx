@@ -159,11 +159,21 @@ const PortfolioVideoSection = () => {
   const maxSlides = Math.max(0, videos.length - videosToShow);
 
   const goToPrevious = () => {
-    setCurrentSlide(prev => Math.max(0, prev - 1));
+    setCurrentSlide(prev => {
+      if (prev === 0) {
+        return maxSlides;
+      }
+      return prev - 1;
+    });
   };
 
   const goToNext = () => {
-    setCurrentSlide(prev => Math.min(maxSlides, prev + 1));
+    setCurrentSlide(prev => {
+      if (prev === maxSlides) {
+        return 0;
+      }
+      return prev + 1;
+    });
   };
 
   // Touch handlers for mobile swipe
@@ -253,26 +263,22 @@ const PortfolioVideoSection = () => {
           {/* Mobile: Full width container */}
           <div className="sm:hidden relative px-2">
             {/* Left Arrow - Mobile */}
-            {currentSlide > 0 && (
-              <button
-                onClick={() => handleNavigation('prev')}
-                className="absolute left-1 top-1/2 transform -translate-y-1/2 z-30 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border border-red-600 transition-all duration-300 active:scale-95"
-                aria-label="Previous video"
-              >
-                <FaChevronLeft className="text-sm" />
-              </button>
-            )}
+            <button
+              onClick={() => handleNavigation('prev')}
+              className="absolute left-1 top-1/2 transform -translate-y-1/2 z-30 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border border-red-600 transition-all duration-300 active:scale-95"
+              aria-label="Previous video"
+            >
+              <FaChevronLeft className="text-sm" />
+            </button>
 
             {/* Right Arrow - Mobile */}
-            {currentSlide < maxSlides && (
-              <button
-                onClick={() => handleNavigation('next')}
-                className="absolute right-1 top-1/2 transform -translate-y-1/2 z-30 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border border-red-600 transition-all duration-300 active:scale-95"
-                aria-label="Next video"
-              >
-                <FaChevronRight className="text-sm" />
-              </button>
-            )}
+            <button
+              onClick={() => handleNavigation('next')}
+              className="absolute right-1 top-1/2 transform -translate-y-1/2 z-30 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border border-red-600 transition-all duration-300 active:scale-95"
+              aria-label="Next video"
+            >
+              <FaChevronRight className="text-sm" />
+            </button>
 
             {/* Video Container - Mobile */}
             <div 

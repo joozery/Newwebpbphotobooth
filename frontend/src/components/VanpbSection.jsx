@@ -13,7 +13,7 @@ const VanpbSection = () => {
   const [showPopup, setShowPopup] = React.useState(false);
   const vanpbImages = [vanpbImg]; // สามารถเพิ่มรูปอื่นๆ ได้ที่นี่
   return (
-    <section className="w-full py-16 md:py-24 bg-gradient-to-r from-[#bca177] via-[#e7d3b0] to-[#a67c52] relative overflow-hidden">
+    <section className="w-full py-16 md:py-24 bg-gradient-to-r from-[#f5f5dc] via-[#faf0e6] to-[#f5e6d3] relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating circles (latte tones) */}
@@ -55,7 +55,7 @@ const VanpbSection = () => {
           >
             <div className="space-y-6">
               {/* หัวข้อใหม่ PB SnapVan */}
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#7c4a1e] mb-4">PB SnapVan</h2>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#7c4a1e] mb-4">PB PhotoVan</h2>
               {/* รายละเอียด */}
               <div className="space-y-3 text-base md:text-lg leading-relaxed">
                 <p>
@@ -66,7 +66,7 @@ const VanpbSection = () => {
                 <p>
                   สัมผัสประสบการณ์ถ่ายรูปที่ทั้งสนุกและอบอุ่นในบรรยากาศวินเทจ<br/>
                   ตกแต่งพร็อพและธีมได้ตามใจคุณ เหมาะกับทุกโอกาสสำคัญ<br/>
-                  เก็บทุกโมเมนต์ประทับใจในสไตล์ SnapVan ที่ไม่ซ้ำใคร
+                  เก็บทุกโมเมนต์ประทับใจในสไตล์ PhotoVan ที่ไม่ซ้ำใคร
                 </p>
               </div>
               {/* ปุ่ม CTA */}
