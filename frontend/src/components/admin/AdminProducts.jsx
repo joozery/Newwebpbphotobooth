@@ -299,11 +299,17 @@ const AdminProducts = () => {
       const productInfo = {};
       let mainImageFile = null;
       let detailImageFiles = [];
+      let shouldDeleteMainImage = false;
+      let shouldDeleteDetailImages = false;
       
       if (productData instanceof FormData) {
         for (let [key, value] of productData.entries()) {
           if (key === 'features' || key === 'technicalSpecs') {
             productInfo[key] = JSON.parse(value);
+          } else if (key === 'deleteMainImage') {
+            shouldDeleteMainImage = value === 'true';
+          } else if (key === 'deleteDetailImages') {
+            shouldDeleteDetailImages = value === 'true';
           } else if (key === 'mainImage') {
             mainImageFile = value;
           } else if (key === 'detailImages') {
@@ -316,6 +322,8 @@ const AdminProducts = () => {
         Object.assign(productInfo, productData);
         mainImageFile = productData.mainImageFile;
         detailImageFiles = productData.detailImageFiles || [];
+        shouldDeleteMainImage = productData.shouldDeleteMainImage || false;
+        shouldDeleteDetailImages = productData.shouldDeleteDetailImages || false;
       }
 
       // หาสินค้าปัจจุบัน
@@ -324,6 +332,11 @@ const AdminProducts = () => {
 
       // จัดการรูปภาพหลัก
       let mainImageUrl = currentProduct?.main_image_url || null;
+      if (shouldDeleteMainImage) {
+        // ผู้ใช้ต้องการลบรูปภาพหลัก
+        console.log('🗑️ User wants to delete main image');
+        mainImageUrl = null;
+      } else
       if (mainImageFile) {
         // มีไฟล์ใหม่ ให้อัพโหลด
         console.log('📤 Uploading new main image...');
@@ -343,6 +356,11 @@ const AdminProducts = () => {
 
       // จัดการรูปภาพรายละเอียด
       let detailImageUrls = currentProduct?.detail_images || [];
+      if (shouldDeleteDetailImages) {
+        // ผู้ใช้ต้องการลบรูปภาพรายละเอียดทั้งหมด
+        console.log('🗑️ User wants to delete all detail images');
+        detailImageUrls = [];
+      } else
       if (detailImageFiles.length > 0) {
         // มีไฟล์ใหม่ ให้อัพโหลด
         console.log('📤 Uploading new detail images...');
@@ -386,11 +404,18 @@ const AdminProducts = () => {
       
       // ถ้า API ไม่ทำงาน ให้อัพเดทใน local state
       if (err.message?.includes('Network Error') || err.code === 'ERR_NETWORK' || !err.response) {
+        // หาสินค้าปัจจุบัน (ต้องหาใหม่เพราะ currentProduct อาจจะไม่ได้ถูกประกาศใน scope นี้)
+        const currentProduct = products.find(p => p.id === id);
+        
         const productInfo = {};
         if (productData instanceof FormData) {
           for (let [key, value] of productData.entries()) {
             if (key === 'features' || key === 'technicalSpecs') {
               productInfo[key] = JSON.parse(value);
+            } else if (key === 'deleteMainImage') {
+              productInfo.shouldDeleteMainImage = value === 'true';
+            } else if (key === 'deleteDetailImages') {
+              productInfo.shouldDeleteDetailImages = value === 'true';
             } else if (key !== 'mainImage' && key !== 'detailImages') {
               productInfo[key] = value;
             }
@@ -398,6 +423,28 @@ const AdminProducts = () => {
         } else {
           Object.assign(productInfo, productData);
         }
+        
+        // จัดการรูปภาพใน local state
+        let mainImageUrl = currentProduct?.main_image_url;
+        let detailImageUrls = currentProduct?.detail_images || [];
+        
+        console.log('🔍 Offline mode - Current product:', currentProduct);
+        console.log('🔍 Offline mode - shouldDeleteMainImage:', productInfo.shouldDeleteMainImage);
+        console.log('🔍 Offline mode - shouldDeleteDetailImages:', productInfo.shouldDeleteDetailImages);
+        console.log('🔍 Offline mode - Original mainImageUrl:', mainImageUrl);
+        console.log('🔍 Offline mode - Original detailImageUrls:', detailImageUrls);
+        
+        if (productInfo.shouldDeleteMainImage) {
+          mainImageUrl = null;
+          console.log('🗑️ Offline mode - Deleting main image, setting to null');
+        }
+        if (productInfo.shouldDeleteDetailImages) {
+          detailImageUrls = [];
+          console.log('🗑️ Offline mode - Deleting all detail images, setting to empty array');
+        }
+        
+        console.log('🔍 Offline mode - Final mainImageUrl:', mainImageUrl);
+        console.log('🔍 Offline mode - Final detailImageUrls:', detailImageUrls);
         
         setProducts(products.map(p => 
           p.id === id ? {
@@ -410,6 +457,8 @@ const AdminProducts = () => {
             status: productInfo.status,
             features: productInfo.features || p.features,
             technical_specs: productInfo.technicalSpecs || p.technical_specs,
+            main_image_url: mainImageUrl,
+            detail_images: detailImageUrls,
             updated_at: new Date().toISOString()
           } : p
         ));
@@ -745,7 +794,10 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
     detailImages: [],
     // เพิ่ม state สำหรับแสดงรูปภาพที่อัพโหลดไว้แล้ว
     currentMainImageUrl: product?.main_image_url || null,
-    currentDetailImageUrls: product?.detail_images || []
+    currentDetailImageUrls: product?.detail_images || [],
+    // เพิ่ม state สำหรับติดตามการลบรูปภาพ
+    shouldDeleteMainImage: false,
+    shouldDeleteDetailImages: false
   });
 
   // อัพเดท formData เมื่อ product เปลี่ยน
@@ -769,7 +821,10 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
       detailImages: [], // ไฟล์ใหม่ที่เลือก
       // รูปภาพที่อัพโหลดไว้แล้ว
       currentMainImageUrl: product?.main_image_url || null,
-      currentDetailImageUrls: product?.detail_images || []
+      currentDetailImageUrls: product?.detail_images || [],
+      // รีเซ็ตการลบรูปภาพ
+      shouldDeleteMainImage: false,
+      shouldDeleteDetailImages: false
     };
     
     console.log('New formData:', newFormData);
@@ -796,12 +851,20 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
         features: cleanFeatures,
         technicalSpecs: cleanTechnicalSpecs,
         mainImageFile: formData.mainImage, // ไฟล์รูปภาพหลัก
-        detailImageFiles: formData.detailImages // ไฟล์รูปภาพรายละเอียด
+        detailImageFiles: formData.detailImages, // ไฟล์รูปภาพรายละเอียด
+        shouldDeleteMainImage: formData.shouldDeleteMainImage, // ต้องการลบรูปภาพหลัก
+        shouldDeleteDetailImages: formData.shouldDeleteDetailImages // ต้องการลบรูปภาพรายละเอียด
       };
       
       console.log('Form submit data:', submitData);
       console.log('Main image file:', formData.mainImage);
       console.log('Detail image files:', formData.detailImages);
+      console.log('Should delete main image:', formData.shouldDeleteMainImage);
+      console.log('Should delete detail images:', formData.shouldDeleteDetailImages);
+      console.log('🔍 Form submission - formData state:', formData);
+      console.log('🔍 Form submission - submitData object:', submitData);
+      console.log('🔍 Form submission - shouldDeleteMainImage type:', typeof formData.shouldDeleteMainImage);
+      console.log('🔍 Form submission - shouldDeleteDetailImages type:', typeof formData.shouldDeleteDetailImages);
       
       await onSave(submitData);
       
@@ -1024,7 +1087,15 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
                     />
                     <button
                       type="button"
-                      onClick={() => setFormData({ ...formData, currentMainImageUrl: null })}
+                      onClick={() => {
+                        console.log('🗑️ User clicked delete main image button');
+                        setFormData({ 
+                          ...formData, 
+                          currentMainImageUrl: null,
+                          shouldDeleteMainImage: true 
+                        });
+                        console.log('✅ shouldDeleteMainImage set to true');
+                      }}
                       className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
                       title="ลบรูปภาพปัจจุบัน"
                     >
@@ -1087,7 +1158,16 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
                           type="button"
                           onClick={() => {
                             const newUrls = formData.currentDetailImageUrls.filter((_, i) => i !== index);
-                            setFormData({ ...formData, currentDetailImageUrls: newUrls });
+                            console.log('🗑️ User clicked delete detail image button, index:', index);
+                            console.log('🗑️ Original detail images:', formData.currentDetailImageUrls);
+                            console.log('🗑️ New detail images after deletion:', newUrls);
+                            setFormData({ 
+                              ...formData, 
+                              currentDetailImageUrls: newUrls,
+                              // ถ้าลบรูปภาพรายละเอียดหมดแล้ว ให้เซ็ต flag การลบ
+                              shouldDeleteDetailImages: newUrls.length === 0
+                            });
+                            console.log('✅ shouldDeleteDetailImages set to:', newUrls.length === 0);
                           }}
                           className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
                           title="ลบรูปภาพ"

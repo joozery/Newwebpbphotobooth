@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaTimes, FaChevronLeft, FaChevronRight, FaSpinner } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 import { fetchGalleryImages } from '../services/galleryService';
 
 // Lightbox Modal Component
@@ -79,6 +80,8 @@ const GallerySection = () => {
   const [loading, setLoading] = useState(true);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const imagesPerPage = 8;
 
   // Fetch gallery images from API
   useEffect(() => {
@@ -100,8 +103,22 @@ const GallerySection = () => {
     loadImages();
   }, []);
 
+  // Calculate pagination
+  const totalPages = Math.ceil(images.length / imagesPerPage);
+  const startIndex = currentPage * imagesPerPage;
+  const endIndex = startIndex + imagesPerPage;
+  const currentImages = images.slice(startIndex, endIndex);
+
+  const goToNextPage = () => {
+    setCurrentPage((prev) => (prev + 1) % totalPages);
+  };
+
+  const goToPreviousPage = () => {
+    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+  };
+
   const openLightbox = (index) => {
-    setCurrentImageIndex(index);
+    setCurrentImageIndex(startIndex + index);
     setIsLightboxOpen(true);
   };
 
@@ -176,30 +193,89 @@ const GallerySection = () => {
       <section className="w-full py-10">
         <div className="max-w-screen-xl mx-auto px-4 md:px-10">
           <h2 className="text-2xl md:text-3xl font-bold text-black mb-4">Gallery</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {images.map((image, index) => (
-              <div
-                key={image.id}
-                className="relative group cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
-                onClick={() => openLightbox(index)}
+          
+          {/* Gallery Grid */}
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentPage}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"
               >
-                <img
-                  src={image.image_url}
-                  alt={`Gallery image ${image.id}`}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-                  onError={(e) => {
-                    e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIEVycm9yPC90ZXh0Pjwvc3ZnPg==';
-                  }}
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                  <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
-                    <div className="text-lg font-semibold mb-2">คลิกเพื่อดู</div>
-                    <div className="text-sm">รูปภาพ {image.id}</div>
-                  </div>
+                {currentImages.map((image, index) => (
+                  <motion.div
+                    key={`${currentPage}-${image.id}`}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="relative group cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
+                    onClick={() => openLightbox(index)}
+                  >
+                    <img
+                      src={image.image_url}
+                      alt={`Gallery image ${image.id}`}
+                      className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                      onError={(e) => {
+                        e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIEVycm9yPC90ZXh0Pjwvc3ZnPg==';
+                      }}
+                    />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                      <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+                        <div className="text-lg font-semibold mb-2">คลิกเพื่อดู</div>
+                        <div className="text-sm">รูปภาพ {image.id}</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation Buttons */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-4 mt-6">
+                <button
+                  onClick={goToPreviousPage}
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold shadow-lg transition-colors duration-300"
+                  disabled={totalPages <= 1}
+                >
+                  <FaChevronLeft />
+                </button>
+                
+                {/* Page Indicator */}
+                <div className="flex items-center gap-2">
+                  {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i)}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        i === currentPage 
+                          ? 'bg-blue-600 scale-125' 
+                          : 'bg-gray-300 hover:bg-gray-400'
+                      }`}
+                    />
+                  ))}
                 </div>
+                
+                <button
+                  onClick={goToNextPage}
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold shadow-lg transition-colors duration-300"
+                  disabled={totalPages <= 1}
+                >
+                  <FaChevronRight />
+                </button>
               </div>
-            ))}
+            )}
+
+            {/* Page Info */}
+            {totalPages > 1 && (
+              <div className="text-center mt-4 text-gray-600">
+                หน้า {currentPage + 1} จาก {totalPages} ({images.length} รูปทั้งหมด)
+              </div>
+            )}
           </div>
         </div>
       </section>

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes, FaPhone, FaLine, FaInfoCircle, FaCalendarAlt, FaComments } from 'react-icons/fa';
 import { fetchProducts } from '../services/productService';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // รูป Photobooth Box B1-B4
 import B1Img from '../assets/slidehero/B1.png';
@@ -50,9 +55,15 @@ function ProductCard({ img, title, desc, onViewDetails }) {
 function ProductDetailModal({ isOpen, onClose, product }) {
   if (!isOpen || !product) return null;
 
+  // รวมรูปหลักและรูปเพิ่มเติม
+  const allImages = [
+    product.main_image_url || defaultImages[product.title],
+    ...(product.detail_images || [])
+  ];
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto scrollbar-hide">
+      <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden">
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
@@ -65,13 +76,36 @@ function ProductDetailModal({ isOpen, onClose, product }) {
             </button>
           </div>
 
-          {/* Single Image */}
+          {/* Image Slider */}
           <div className="bg-gray-50 rounded-2xl p-6">
-            <img 
-              src={product.main_image_url || defaultImages[product.title]} 
-              alt={product.title}
-              className="w-full h-96 object-contain rounded-lg"
-            />
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay]}
+              spaceBetween={0}
+              slidesPerView={1}
+              navigation={true}
+              pagination={{ clickable: true }}
+              autoplay={{
+                delay: 4000,
+                disableOnInteraction: false,
+              }}
+              loop={true}
+              className="product-detail-swiper h-[calc(95vh-200px)]"
+            >
+              {allImages.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <div className="w-full h-full flex items-center justify-center p-4">
+                    <img
+                      src={image}
+                      alt={`${product.title} ${index + 1}`}
+                      className="max-w-full max-h-full object-contain rounded-lg"
+                      onError={(e) => {
+                        e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIEVycm9yPC90ZXh0Pjwvc3ZnPg==';
+                      }}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
       </div>
