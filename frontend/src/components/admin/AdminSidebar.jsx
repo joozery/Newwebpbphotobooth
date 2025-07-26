@@ -17,7 +17,7 @@ import {
 
 const AdminSidebar = ({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab, adminMenuItems }) => {
   return (
-    <div className={`bg-white shadow-lg transition-all duration-300 flex flex-col h-screen ${sidebarOpen ? 'w-72' : 'w-20'}`}>
+    <div className={`bg-white shadow-lg transition-all duration-300 flex flex-col h-screen overflow-hidden ${sidebarOpen ? 'w-72' : 'w-20'}`}>
       {/* Header with Logo */}
       <div className="p-6 border-b border-gray-100 flex-shrink-0">
         <div className="flex items-center justify-between">
@@ -58,7 +58,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab, ad
 
 
       {/* Main Navigation */}
-      <nav className="flex-1 p-4">
+      <nav className="flex-1 p-4 overflow-y-auto custom-scrollbar">
         <div className="space-y-2">
           {adminMenuItems.map((item) => {
             return (

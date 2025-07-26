@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import vanpbImg from "../assets/vanpb.png";
@@ -8,42 +8,80 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
-// ตัวอย่างข้อมูล (สามารถเปลี่ยนเป็นข้อมูลจริงได้)
-const vanpbContent = [
-  {
-    type: 'image',
-    src: vanpbImg,
-    alt: 'PB PhotoVan Image',
-    title: 'PB PhotoVan'
-  },
-  {
-    type: 'video',
-    videoId: '7529373447554665736',
-    title: 'PB PhotoVan Demo Video',
-    description: 'สาธิตการใช้งาน PB PhotoVan'
-  },
-  {
-    type: 'video',
-    videoId: '7529841551799864584',
-    title: 'PB PhotoVan Interior',
-    description: 'ภายใน PB PhotoVan'
-  }
-];
+import { vanImageService, vanVideoService } from '../services/vanAssetService';
 
 const VanpbSection = () => {
-  const [showPopup, setShowPopup] = React.useState(false);
-  
-  // Load TikTok embed script
-  React.useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://www.tiktok.com/embed.js';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    return () => {
-      document.body.removeChild(script);
+  const [showPopup, setShowPopup] = useState(false);
+  const [vanAssets, setVanAssets] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // ดึงข้อมูล van assets จาก API
+  useEffect(() => {
+    const fetchVanAssets = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // ดึงรูปภาพและวิดีโอพร้อมกัน
+        const [images, videos] = await Promise.all([
+          vanImageService.getAllImages(),
+          vanVideoService.getAllVideos()
+        ]);
+
+        // รวมข้อมูลและแปลงเป็นรูปแบบที่ต้องการ
+        const combinedAssets = [
+          // เพิ่มรูปภาพหลัก
+          {
+            type: 'image',
+            src: vanpbImg,
+            alt: 'PB PhotoVan Image',
+            title: 'PB PhotoVan',
+            isMain: true
+          },
+          // เพิ่มรูปภาพจาก API
+          ...images
+            .filter(img => img.status === 'active')
+            .map(img => ({
+              type: 'image',
+              src: img.image_url,
+              alt: img.title,
+              title: img.title,
+              description: img.description,
+              category: img.category
+            })),
+          // เพิ่มวิดีโอจาก API
+          ...videos
+            .filter(video => video.status === 'active')
+            .map(video => ({
+              type: 'video',
+              src: video.video_url,
+              title: video.title,
+              description: video.description,
+              category: video.category
+            }))
+        ];
+
+        setVanAssets(combinedAssets);
+      } catch (err) {
+        console.error('Error fetching van assets:', err);
+        setError('ไม่สามารถโหลดข้อมูลได้');
+        
+        // Fallback ข้อมูล
+        setVanAssets([
+          {
+            type: 'image',
+            src: vanpbImg,
+            alt: 'PB PhotoVan Image',
+            title: 'PB PhotoVan'
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
     };
+
+    fetchVanAssets();
   }, []);
   
   return (
@@ -198,49 +236,107 @@ const VanpbSection = () => {
                   pagination={{ clickable: true }}
                   className="vanpb-popup-swiper h-[calc(80vh-80px)] md:h-[calc(60vh-80px)]"
                 >
-                  {vanpbContent.map((item, index) => (
-                    <SwiperSlide key={index}>
+                  {loading ? (
+                    <SwiperSlide>
                       <div className="w-full h-full flex items-center justify-center p-4">
-                        {item.type === 'image' ? (
-                          <div className="w-full h-full flex flex-col items-center justify-center">
-                            <img
-                              src={item.src}
-                              alt={item.alt}
-                              className="max-w-full max-h-full object-contain rounded-lg"
-                            />
-                            {item.title && (
-                              <h4 className="text-lg font-semibold text-gray-900 mt-4 text-center">
-                                {item.title}
-                              </h4>
-                            )}
-                          </div>
-                        ) : item.type === 'video' ? (
-                          <div className="w-full h-full flex flex-col items-center justify-center">
-                            <div className="aspect-video w-full max-w-2xl bg-gray-100 rounded-xl overflow-hidden">
-                              <blockquote
-                                className="tiktok-embed"
-                                cite={`https://www.tiktok.com/@pb.photobooth/video/${item.videoId}`}
-                                data-video-id={item.videoId}
-                                style={{ maxWidth: '605px', minWidth: '325px' }}
-                              >
-                                <section></section>
-                              </blockquote>
-                            </div>
-                            {item.title && (
-                              <h4 className="text-lg font-semibold text-gray-900 mt-4 text-center">
-                                {item.title}
-                              </h4>
-                            )}
-                            {item.description && (
-                              <p className="text-gray-700 mt-2 text-center max-w-md">
-                                {item.description}
-                              </p>
-                            )}
-                          </div>
-                        ) : null}
+                        <div className="text-center">
+                          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7c4a1e] mx-auto mb-4"></div>
+                          <p className="text-gray-600">กำลังโหลดข้อมูล...</p>
+                        </div>
                       </div>
                     </SwiperSlide>
-                  ))}
+                  ) : error ? (
+                    <SwiperSlide>
+                      <div className="w-full h-full flex items-center justify-center p-4">
+                        <div className="text-center">
+                          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                            </svg>
+                          </div>
+                          <p className="text-red-600 mb-2">เกิดข้อผิดพลาด</p>
+                          <p className="text-gray-600 text-sm">{error}</p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ) : vanAssets.length === 0 ? (
+                    <SwiperSlide>
+                      <div className="w-full h-full flex items-center justify-center p-4">
+                        <div className="text-center">
+                          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                          <p className="text-gray-600">ไม่มีข้อมูล</p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ) : (
+                    vanAssets.map((item, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="w-full h-full flex items-center justify-center p-4">
+                          {item.type === 'image' ? (
+                            <div className="w-full h-full flex flex-col items-center justify-center">
+                              <img
+                                src={item.src}
+                                alt={item.alt}
+                                className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+                                onError={(e) => {
+                                  e.target.src = vanpbImg; // Fallback image
+                                }}
+                              />
+                              {item.title && (
+                                <h4 className="text-lg font-semibold text-gray-900 mt-4 text-center">
+                                  {item.title}
+                                </h4>
+                              )}
+                              {item.description && (
+                                <p className="text-gray-700 mt-2 text-center max-w-md text-sm">
+                                  {item.description}
+                                </p>
+                              )}
+                              {item.category && (
+                                <span className="inline-block bg-[#7c4a1e] text-white text-xs px-3 py-1 rounded-full mt-2">
+                                  {item.category}
+                                </span>
+                              )}
+                            </div>
+                          ) : item.type === 'video' ? (
+                            <div className="w-full h-full flex flex-col items-center justify-center">
+                              <div className="aspect-video w-full max-w-2xl bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                                <video
+                                  src={item.src}
+                                  controls
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    console.error('Video error:', e);
+                                  }}
+                                >
+                                  Your browser does not support the video tag.
+                                </video>
+                              </div>
+                              {item.title && (
+                                <h4 className="text-lg font-semibold text-gray-900 mt-4 text-center">
+                                  {item.title}
+                                </h4>
+                              )}
+                              {item.description && (
+                                <p className="text-gray-700 mt-2 text-center max-w-md text-sm">
+                                  {item.description}
+                                </p>
+                              )}
+                              {item.category && (
+                                <span className="inline-block bg-[#7c4a1e] text-white text-xs px-3 py-1 rounded-full mt-2">
+                                  {item.category}
+                                </span>
+                              )}
+                            </div>
+                          ) : null}
+                        </div>
+                      </SwiperSlide>
+                    ))
+                  )}
                 </Swiper>
               </div>
               <div className="bg-white/20 backdrop-blur-sm p-4 text-center border-t border-white/30">

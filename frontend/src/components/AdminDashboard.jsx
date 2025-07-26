@@ -10,7 +10,9 @@ import {
   ViewColumnsIcon,
   PresentationChartLineIcon,
   MegaphoneIcon,
-  BuildingOfficeIcon
+  BuildingOfficeIcon,
+  TruckIcon,
+  UsersIcon
 } from '@heroicons/react/24/outline';
 import AdminSidebar from './admin/AdminSidebar';
 import AdminHeader from './admin/AdminHeader';
@@ -25,6 +27,8 @@ import AdminImages from './admin/AdminImages';
 import AdminHeroSlides from './admin/AdminHeroSlides';
 import AdminPromotionSlides from './admin/AdminPromotionSlides';
 import AdminClients from './admin/AdminClients';
+import AdminVanAssets from './admin/AdminVanAssets';
+import AdminUsers from './admin/AdminUsers';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -39,8 +43,10 @@ const AdminDashboard = () => {
     { id: 'gallery', label: 'แกลลอรี่', icon: <PhotoIcon className="w-5 h-5" /> },
     { id: 'images', label: 'รูปภาพ', icon: <ViewColumnsIcon className="w-5 h-5" /> },
     { id: 'videos', label: 'วิดีโอ', icon: <PlayIcon className="w-5 h-5" /> },
+    { id: 'van-assets', label: 'Van Assets', icon: <TruckIcon className="w-5 h-5" /> },
     { id: 'bookings', label: 'การจอง', icon: <CalendarIcon className="w-5 h-5" /> },
     { id: 'analytics', label: 'สถิติ', icon: <ChartBarIcon className="w-5 h-5" /> },
+    { id: 'users', label: 'ผู้ใช้ Admin', icon: <UsersIcon className="w-5 h-5" /> },
     { id: 'settings', label: 'ตั้งค่า', icon: <Cog6ToothIcon className="w-5 h-5" /> },
   ];
 
@@ -62,10 +68,14 @@ const AdminDashboard = () => {
         return <AdminImages />;
       case 'videos':
         return <AdminVideos />;
+      case 'van-assets':
+        return <AdminVanAssets />;
       case 'bookings':
         return <AdminBookings />;
       case 'analytics':
         return <AdminAnalytics />;
+      case 'users':
+        return <AdminUsers />;
       case 'settings':
         return <AdminSettings />;
       default:
