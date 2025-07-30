@@ -63,7 +63,7 @@ const ReviewsAndSocialSection = () => {
             
             {/* Google Reviews Widget */}
             <div className="min-h-[400px] flex items-center justify-center">
-              <div className="elfsight-app-99ff2706-35dc-4952-a05d-4c54ecbf0d0a" data-elfsight-app-lazy></div>
+              <div className="elfsight-app-c50cab09-4c61-4030-981d-803ce5e4f08a" data-elfsight-app-lazy></div>
             </div>
           </div>
 

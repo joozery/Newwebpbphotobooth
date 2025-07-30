@@ -26,8 +26,8 @@ echo "💾 Committing changes..."
 git commit -m "Update to new Elfsight widgets
 
 - Replace custom Google Reviews widget with Elfsight widget
-- Update Google Reviews widget ID: 99ff2706-35dc-4952-a05d-4c54ecbf0d0a
-- Update Facebook Reviews widget ID: d75f8f23-9727-4c49-861d-8267d4151269
+- Update Google Reviews widget ID: c50cab09-4c61-4030-981d-803ce5e4f08a
+- Update Facebook Reviews widget ID: 8dd208b0-a98e-4930-af1f-cb03e23c65e0
 - Remove custom GoogleReviewsWidget component
 - Use Elfsight platform.js script
 - Maintain lazy loading for better performance"

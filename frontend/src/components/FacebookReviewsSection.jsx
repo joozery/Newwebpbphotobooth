@@ -20,7 +20,7 @@ const FacebookReviewsSection = () => {
         {/* Elfsight Facebook Reviews Widget */}
         <div className="flex justify-center">
           <div 
-            className="elfsight-app-d75f8f23-9727-4c49-861d-8267d4151269 w-full max-w-6xl" 
+            className="elfsight-app-8dd208b0-a98e-4930-af1f-cb03e23c65e0 w-full max-w-6xl" 
             data-elfsight-app-lazy
           ></div>
         </div>
