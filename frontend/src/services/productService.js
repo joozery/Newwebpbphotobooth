@@ -138,7 +138,7 @@ export const uploadAPI = {
       const formData = new FormData();
       formData.append('image', file);
       
-      const response = await api.post('/api/upload/main', formData, {
+      const response = await api.post('/api/upload/image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -171,7 +171,7 @@ export const uploadAPI = {
         formData.append('images', file);
       });
       
-      const response = await api.post('/api/upload/details', formData, {
+      const response = await api.post('/api/upload/images', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -204,55 +204,6 @@ export const fetchProducts = async () => {
     return response.data;
   } catch (error) {
     throw error;
-  }
-};
-
-export const uploadProduct = async (productData, images) => {
-  try {
-    const formData = new FormData();
-    
-    // Add product data
-    formData.append('title', productData.title || '');
-    formData.append('description', productData.description || '');
-    formData.append('price', productData.price || '');
-    formData.append('price_details', productData.price_details || '');
-    formData.append('features', JSON.stringify(productData.features || []));
-    formData.append('technical_specs', JSON.stringify(productData.technical_specs || []));
-    formData.append('status', productData.status || 'active');
-
-    // Add images
-    if (images.mainImage) {
-      formData.append('main_image', images.mainImage);
-    }
-    
-    if (images.detailImages && images.detailImages.length > 0) {
-      images.detailImages.forEach((image, index) => {
-        formData.append('detail_images', image);
-      });
-    }
-
-    const response = await api.post('/api/products/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      onUploadProgress: (progressEvent) => {
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        console.log('Upload progress:', percentCompleted + '%');
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error('Error uploading product:', error);
-    if (error.response) {
-      throw new Error(`อัพโหลดสินค้าล้มเหลว: ${error.response.data?.error || error.response.status}`);
-    } else if (error.request) {
-      throw new Error('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
-    } else {
-      throw new Error('เกิดข้อผิดพลาดในการอัพโหลดสินค้า');
-    }
   }
 };
 

@@ -140,13 +140,13 @@ export const promotionSlideService = {
     }
   },
 
-  // Upload image to Cloudinary (legacy method - kept for compatibility)
+  // Upload image to S3 (updated method)
   uploadImage: async (file) => {
     try {
       const formData = new FormData();
       formData.append('image', file);
       
-      const response = await api.post('/gallery/upload', formData, {
+      const response = await api.post('/upload/image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

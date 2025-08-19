@@ -172,7 +172,7 @@ export const uploadAPI = {
       const formData = new FormData();
       formData.append('image', file);
       
-      const response = await api.post('/api/upload/main', formData, {
+      const response = await api.post('/api/upload/image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -207,7 +207,7 @@ export const uploadAPI = {
         formData.append('images', file);
       });
       
-      const response = await api.post('/api/upload/details', formData, {
+      const response = await api.post('/api/upload/images', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

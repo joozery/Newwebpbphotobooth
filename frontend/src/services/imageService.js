@@ -40,7 +40,7 @@ export const imageService = {
   // อัปโหลดรูปภาพ
   uploadImage: async (formData) => {
     try {
-      const response = await api.post('/images/upload', formData, {
+      const response = await api.post('/upload/image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
