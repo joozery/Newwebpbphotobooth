@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // สร้าง axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://pbbackend-api-4e56bf125d15.herokuapp.com',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://pbphotobooth-backend-2-a50dde720de0.herokuapp.com',
   timeout: 30000, // 30 seconds timeout for better reliability
   headers: {
     'Content-Type': 'application/json',

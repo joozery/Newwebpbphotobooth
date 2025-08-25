@@ -4,7 +4,7 @@ const ReviewsAndSocialSection = () => {
   useEffect(() => {
     // Load Elfsight script
     const script = document.createElement('script');
-    script.src = 'https://static.elfsight.com/platform/platform.js';
+    script.src = 'https://elfsightcdn.com/platform.js';
     script.async = true;
     document.head.appendChild(script);
 
@@ -63,7 +63,7 @@ const ReviewsAndSocialSection = () => {
             
             {/* Google Reviews Widget */}
             <div className="min-h-[400px] flex items-center justify-center">
-              <div className="elfsight-app-8e2e65d3-32b8-477c-9bc1-a36f599de923" data-elfsight-app-lazy></div>
+              <div className="elfsight-app-64af0c31-8ab3-46e9-9b8d-6fd012761c6b" data-elfsight-app-lazy></div>
             </div>
           </div>
 

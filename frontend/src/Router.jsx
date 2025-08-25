@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import ProductDetailPage from './components/ProductDetailPage';
 import AdminDashboard from './components/AdminDashboard';
+import AdminLogin from './components/admin/AdminLogin';
 import logo from './assets/pblogo.png';
 
 const Router = () => {
@@ -51,7 +52,8 @@ const Router = () => {
       <BrowserRouter>
         {/* Header and Navigation for non-admin pages */}
         <Routes>
-          <Route path="/admin/*" element={<AdminDashboard />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/*" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
           <Route path="*" element={
             <>
               <Header open={open} setOpen={setOpen} menuItems={menuItems} logo={logo} />
@@ -68,6 +70,15 @@ const Router = () => {
       </BrowserRouter>
     </HelmetProvider>
   );
+};
+
+// Simple route guard component
+const RequireAdmin = ({ children }) => {
+  const token = localStorage.getItem('pb_admin_token');
+  if (!token) {
+    return <AdminLogin />;
+  }
+  return children;
 };
 
 export default Router; 

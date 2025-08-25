@@ -11,9 +11,9 @@ const FacebookReviewsSection = () => {
     }
 
     // Load Elfsight script if not already loaded
-    if (!document.querySelector('script[src="https://static.elfsight.com/platform/platform.js"]')) {
+    if (!document.querySelector('script[src="https://elfsightcdn.com/platform.js"]')) {
       const script = document.createElement('script');
-      script.src = 'https://static.elfsight.com/platform/platform.js';
+      script.src = 'https://elfsightcdn.com/platform.js';
       script.async = true;
       
       script.onload = () => {
@@ -87,9 +87,8 @@ const FacebookReviewsSection = () => {
         {/* Elfsight Facebook Reviews Widget */}
         <div className="flex justify-center">
           <div 
-            className="elfsight-app-21dd7c99-d594-4d64-ac07-afb8a1293638 w-full max-w-6xl" 
+            className="elfsight-app-1742c632-6d89-4f57-879a-c50a5f3930bc w-full max-w-6xl" 
             data-elfsight-app-lazy
-            data-elfsight-app-options='{"lazy": true, "autoInit": false}'
           ></div>
         </div>
         

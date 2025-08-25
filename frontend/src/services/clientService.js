@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://pbbackend-api-4e56bf125d15.herokuapp.com/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://pbphotobooth-backend-2-a50dde720de0.herokuapp.com/api';
 
 // Create axios instance with timeout
 const api = axios.create({

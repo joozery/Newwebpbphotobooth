@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://pbbackend-api-4e56bf125d15.herokuapp.com/api/gallery';
+const API_BASE_URL = 'https://pbphotobooth-backend-2-a50dde720de0.herokuapp.com/api/gallery';
 
 // Create axios instance with default config
 const api = axios.create({
