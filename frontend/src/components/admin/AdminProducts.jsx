@@ -785,6 +785,12 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
     title: product?.title || '',
     description: product?.description || '',
     priceDetails: product?.price_details || product?.priceDetails || '',
+    priceDetailItems: (product?.price_details || product?.priceDetails)
+      ? (product?.price_details || product?.priceDetails)
+          .split('\n')
+          .map((s) => s.replace(/^•\s*/, '').trim())
+          .filter((s) => s.length > 0)
+      : [''],
     price: product?.price || '',
     category: product?.category || 'PhotoBooth',
     status: product?.status || 'active',
@@ -812,6 +818,12 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
       title: product?.title || '',
       description: product?.description || '',
       priceDetails: product?.price_details || product?.priceDetails || '',
+      priceDetailItems: (product?.price_details || product?.priceDetails)
+        ? (product?.price_details || product?.priceDetails)
+            .split('\n')
+            .map((s) => s.replace(/^•\s*/, '').trim())
+            .filter((s) => s.length > 0)
+        : [''],
       price: product?.price || '',
       category: product?.category || 'PhotoBooth',
       status: product?.status || 'active',
@@ -839,12 +851,17 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
       const cleanFeatures = formData.features.filter(feature => feature.trim() !== '');
       // Filter out empty technical specs
       const cleanTechnicalSpecs = formData.technicalSpecs.filter(spec => spec.trim() !== '');
-      
+      // รวม price detail items เป็นข้อความบรรทัดละรายการ
+      const cleanPriceDetailItems = (formData.priceDetailItems || []).map(s => s.trim()).filter(s => s);
+      const priceDetailsText = cleanPriceDetailItems.length > 0
+        ? `• ${cleanPriceDetailItems.join('\n• ')}`
+        : (formData.priceDetails || '');
+
       // สร้าง object สำหรับส่งไป API พร้อมไฟล์รูปภาพ
       const submitData = {
         title: formData.title,
         description: formData.description,
-        priceDetails: formData.priceDetails,
+        priceDetails: priceDetailsText,
         price: formData.price,
         category: formData.category,
         status: formData.status,
@@ -906,6 +923,21 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
   const removeTechnicalSpec = (index) => {
     const newTechnicalSpecs = formData.technicalSpecs.filter((_, i) => i !== index);
     setFormData({ ...formData, technicalSpecs: newTechnicalSpecs });
+  };
+
+  const handlePriceDetailChange = (index, value) => {
+    const items = [...formData.priceDetailItems];
+    items[index] = value;
+    setFormData({ ...formData, priceDetailItems: items });
+  };
+
+  const addPriceDetail = () => {
+    setFormData({ ...formData, priceDetailItems: [...formData.priceDetailItems, ''] });
+  };
+
+  const removePriceDetail = (index) => {
+    const items = formData.priceDetailItems.filter((_, i) => i !== index);
+    setFormData({ ...formData, priceDetailItems: items.length > 0 ? items : [''] });
   };
 
   return (
@@ -970,18 +1002,33 @@ const ProductModal = ({ product, onClose, onSave, uploading }) => {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 รายละเอียดราคา
               </label>
-              <textarea
-                name="priceDetails"
-                value={formData.priceDetails}
-                onChange={handleChange}
-                rows="4"
-                placeholder="ตัวอย่าง:
-• ครึ่งวันงาน (4 ชั่วโมง) 15,000 บาท
-• เต็มวันงาน (8 ชั่วโมง) 25,000 บาท
-• รวมทีมงาน 2 คน
-• รวมค่าเดินทางใน กทม."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
+              <div className="space-y-2">
+                {(formData.priceDetailItems || []).map((line, index) => (
+                  <div key={index} className="flex gap-2">
+                    <input
+                      type="text"
+                      value={line}
+                      onChange={(e) => handlePriceDetailChange(index, e.target.value)}
+                      placeholder="เช่น ครึ่งวันงาน (4 ชั่วโมง) 15,000 บาท"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removePriceDetail(index)}
+                      className="px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                    >
+                      <HiTrash className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={addPriceDetail}
+                  className="w-full px-3 py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-gray-400 transition-colors"
+                >
+                  + เพิ่มรายละเอียดราคา
+                </button>
+              </div>
             </div>
 
             <div>
