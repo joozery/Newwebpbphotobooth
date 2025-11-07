@@ -65,10 +65,10 @@ const AdminLogin = () => {
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Username Field */}
+            {/* Username/Email Field */}
             <div className="group">
               <label className="block text-sm font-semibold text-gray-700 mb-2">
-                ชื่อผู้ใช้
+                ชื่อผู้ใช้หรืออีเมล
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -80,7 +80,7 @@ const AdminLogin = () => {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="กรอกชื่อผู้ใช้"
+                  placeholder="กรอกชื่อผู้ใช้หรืออีเมล"
                   className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 outline-none"
                   required
                 />
