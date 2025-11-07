@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://pbphotobooth-backend-2-a50dde720de0.herokuapp.com/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://pbweb.devwooyou.space/api';
 
 // สร้าง axios instance พร้อม timeout และ error handling
 const api = axios.create({

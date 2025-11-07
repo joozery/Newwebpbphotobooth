@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://pbphotobooth-backend-2-a50dde720de0.herokuapp.com';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://pbweb.devwooyou.space';
 
 export const authService = {
   async login(username, password) {
