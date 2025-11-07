@@ -53,6 +53,7 @@ const Router = () => {
         {/* Header and Navigation for non-admin pages */}
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
           <Route path="/admin/*" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
           <Route path="*" element={
             <>
@@ -75,9 +76,17 @@ const Router = () => {
 // Simple route guard component
 const RequireAdmin = ({ children }) => {
   const token = localStorage.getItem('pb_admin_token');
+  
+  React.useEffect(() => {
+    if (!token) {
+      window.location.href = '/admin/login';
+    }
+  }, [token]);
+  
   if (!token) {
-    return <AdminLogin />;
+    return null; // Return null while redirecting
   }
+  
   return children;
 };
 
