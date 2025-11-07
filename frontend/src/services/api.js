@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // สร้าง axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://pbweb.devwooyou.space',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://pbweb.devwooyou.space',
   timeout: 30000, // 30 seconds timeout for better reliability
   headers: {
     'Content-Type': 'application/json',
